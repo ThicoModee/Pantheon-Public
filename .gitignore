@@ -1,1 +1,14 @@
 .vscode/
+
+/data/
+test-results/
+exports/
+dist/
+*.tmp
+__pycache__/
+*.log
+macros/**/runtime.ini
+macros/**/placement-cache.ini
+
+/tests/data/backups/
+/tests/data/sessions/
