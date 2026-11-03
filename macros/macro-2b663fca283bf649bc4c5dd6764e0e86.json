@@ -1,0 +1,824 @@
+{
+  "definition": {
+    "client": {
+      "height": 600,
+      "width": 800
+    },
+    "entry": "sequence-2",
+    "game": "anime-adventures",
+    "icon": "raids",
+    "maps": {
+      "ant-kingdom-midnight": {
+        "name": "Ant Kingdom (Midnight)"
+      },
+      "sand-village": {
+        "name": "Sand Village"
+      }
+    },
+    "mode": "custom",
+    "name": "Raids",
+    "runMode": "once",
+    "settings": {
+      "setting-1": {
+        "default": "option-1",
+        "label": "Select Stage",
+        "options": [
+          {
+            "label": "Ant Kingdom (Midnight)",
+            "map": "ant-kingdom-midnight",
+            "target": "image-3",
+            "value": "option-1"
+          },
+          {
+            "label": "Sand Village",
+            "map": "sand-village",
+            "target": "image-4",
+            "value": "option-2"
+          }
+        ],
+        "type": "select"
+      },
+      "setting-2": {
+        "default": "option-1",
+        "label": "After Victory",
+        "options": [
+          {
+            "label": "Retry",
+            "target": "image-6",
+            "value": "option-1"
+          },
+          {
+            "label": "Return To Lobby",
+            "target": "image-5",
+            "value": "option-2"
+          },
+          {
+            "label": "Next Act",
+            "target": "image-7",
+            "value": "option-3"
+          }
+        ],
+        "type": "select"
+      }
+    },
+    "targets": {
+      "image-1": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Settings Icon",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$26.zzzzzzzzzzzzzzy7zzz0zzzkDzyQ3bz000zk00Dw0k3z0S0zsDkTz7CDzlnXzsDkTw1s3z0A0zk00Dw003zb0tzzkDzzw3zzzVzzzzzzzzzzzzzzzzzzzU",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-10": {
+        "error0": 0,
+        "error1": 0,
+        "height": 1,
+        "kind": "point",
+        "name": "End Screen Next Button",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "",
+        "width": 1,
+        "x": 318,
+        "y": 394
+      },
+      "image-11": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Areas Icon",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$37.zzzzzzzzzzzzzzzzzzzzzU7zzzy00Tzzy003zzy000zzy000Dzy0003zz0001zz000DzzU7U7zzk7s3zzs7y1zzw3z0zzy1zUTzz0zkDzzUDk7zzk3k3zzs001zz0001zzU000zzs000zzz000zzzk00zzzTzzzzs",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-12": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Match Load In",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$92.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzbtzwTzzzlzzzszzlyDz7zzzwTzzyDzwD3zlzzzz7zzzXzzXlUs31zVUA10k0zswE60UDk820E40Dz680U01sq004303zlWCAQAT1lll7szzy1XX707sAQQFyDzzUMslk3xX774TXzzwC0A40y0kE17s8zz3k7VUDUC60Fz2Dztz7wS3w7lk4TsXzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-2": {
+        "error0": 0,
+        "error1": 0,
+        "height": 1,
+        "kind": "point",
+        "name": "Areas Button",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "",
+        "width": 1,
+        "x": 766,
+        "y": 480
+      },
+      "image-3": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Ant Kingdom (midnight)",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$149.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyzzzngzzznzzzwbtDbzDwzzDzszyTa/zzzbzzzl7WzDyztzCDzlzwz8zzzzDzzza67yTzznySTz1YkS3YbksQN8yQA9kYtkUsCTy30UwD871UkE1ws0H10n10kQzsa9bsSFAG946Ftm4YG9YG9ntzk4nDkQaNYmQAnnaN9Yn9YnbnzU9aTYNAl8YENbbDmF9aF9bDbyT3ADAGNkMA4nDCTYkHAkHCDDyyaQyRYnksQNaTQz9kaNkaSSTzzzzzzzztzzzzyTzzzzztzztzzzzzzzzy3zzzzyTzzzzy7zzXzzzzzzzzyTzzzzyzzzzzyTzzDzzzzzzzzzzzzzzzwzzzzzzzzzk",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-4": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Sand Village",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$90.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzztzztzzzzzzyDzzztyzdaTzzzzw3zzztwT5aTzzzzs7zzztyTDaTzzzztzUYT1yC9aT1kQDsT0UC1zCNaS1UM7w20UA1z4NaQ10E7zWAbANzYtaQN6E7xmAbANzUtaQt6Fzs20bA1zltaQ10Fzw30bC1zltW61UM7yDUbD1zvtnD1kQDzzzzzzzzzzzzUTzzzzzzzzzzzzzUTzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzU",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-5": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Return To Lobby",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*179$161.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzUDzzzzzzzzzzzzzzDzyTwzzzzzy0Dzz7zzzzzzyDzzwTzszlzzzzzw0DzyDzzzzzzwTzzszzlzXzzzzzswDzwTzzzzzzszzzlzzXz7zzzzzlwS7UCSSFmDz0T3zXwD4S8yTDzzXss308wM307y0Q1z7k60Q0syDzz7VU60Fsk60Dw0k3yD0A0M0sszzy06777XlVwADyD33wQA8MEkklzzw0Q0CD7X7swTwSD7sswFsXll7zzs0M0wSD6DlszswSDllsXl7XkDzzlslzswAATXlzlsMTXVV3267UTzzXlk3kQ0Mz7XzUs1z3U60A0TVzzz7lk7Us0lyD7z1s3y3UA0s1z3zzzDbkTlwHXySTzXwTy7lwXt7yDzzzzzzzzzzzzzzzzzzzzzzzzzsTzzzzzzzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzzzzzzzzDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzw",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-6": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Replay",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*216$100.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzztzzzzzzzzzz0Tzzzz7zzzzzzzzzs0TzzzwTzzzzzzzzzU0zzzzlzzzzzzzzzyD3zzzz7zzzzzzzzzsy7tyNwTtbjrzzzzzXwQ1k1ly08z7zzzzyDXU3077k0lszzzzzs0C6AAAT233XzzzzzU1lwEslsQCATzzzzy07037X7XssFzzzzzswADQCAS73k7zzzzzXssxkkkw8DUzzzzzyDXU307Vk0y3zzzzzsz70A0S7U3wTzzzzznxzXlbyTaTlzzzzzzzzzz7zzzzyDzzzzzzzzzwTzzzzszzzzzzzzzzlzzzzz7zzzzzzzzzz7zzzzwTzzzzzzzzzyTzzzzvzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-7": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Next Level",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*185$125.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwzzzyTnzzzzzzwzzzzzzzlzzzsTXzzzzlzlzzzzzzzXzzzkT7zzzzXzXzzzzzzz7zzzUyDzzzz7z7zzzzzzyDzzz0wTVwyQ1yDzkwzbkwTzzy0sw0ksE1wTy0Ey60Mzzzw0lk1UUU3szs0VwM0lzzzslXVVU3kzlzkkVkkkXzzzlU673UDXzXz3VXX3V7zzzXUA07Uz7z7y032602Dzzz7UM0S0yDyDw0D0Q0ATzzyDUsMs0wDwDwAS0wAMTzzwT1k1UUs7s080y3s0kTzzsz3k33VsDk0M1yDs1kzzztzDsDDbwTk1w7yzw7lzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzk",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-8": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Victory",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$128.zzk0Dzy01zU0y00zzzzzzzzy01zz00zs0DU0DzzzzzzzzU0Tzk0Dy03s07zzzzzzzzw07zs07zU0y03zzzzzzzzz00zy01zs0D00zzzzzzzzzs0DzU0zy03k0Dzzzzzzzzy01zk0DzU0w07zzzzzzzzzk0Tw07zs0D01zzzzzzzzzw03y01zy03k0TzzzzzzzzzU0zU0zzU0w07zzzzzzzzzs07k0Dzs0D01zzzzzzzzzz01w07zy03k0Tzzzzzzzzzk0C01zzU0w03zzzzzzzzzy03U0zzs0D00zzzzzzzzzzU0s0Dzy03s0Dzzzzzzzzzw0407zzU0y01zzzzzzzzzz0001zzs0DU0Tzzzzzzzzzs000zzy03w03zzzzzzzzzy000DzzU0z00Tzz3zzzzzzk007zzs0Dk01zz0Tzzzzzw001zzy03y007z03zzzzzzU00zzzU0zk00000zzzzzzs00Dzzs0Dw000007zzzzzz007zzy03zU00001zzzzzzk01zzzU0zw00000Tzzzzzy00zzzs0DzU00007zzzzzzU0Dzzy03zw00001zzzzzzw07zzzU0zzU0000zzzzzzz01zzzs0Dzy0000Tzzzzzzs0zzzy03zzs000Tzzzzzzz0Tzzzk1zzzU00TzzzzzzzsDzzzz0zzzz00zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-9": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Defeat",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*32$137.zzzk0Tzk03w07zzzzk0TzzzzzzU0zzk03s0DzzzzU0zzzzzzz01zzk07k0Tzzzz01zzzzzzy03zzk0DU0zzzzy03zzzzzzw07zzk0D00007zw0000Tzzzs0DzzU0S00007zs0000Tzzzk0Tzz00w00007zk0000TzzzU0zzz01s0000DzU0000zzzz01zzy03k0000Tz00001zzzy03zzw07U0000zy00003zzzw07zzs0D00001zw00007zzzs0Dzzk0S00003zs0000Dzzzk0TzzU0w00007zk0000TzzzU0zzy01s0000TzU0001zzzz01zzw03k0001zz00007zzzy03zzs0DU0zzzzy03zzzzzzw07zzU0T01zzzzw07zzzzzzs0Dzy00y03zzzzs0Dzzzzzzk0Tzs03w07zzzzk0TzzzzzzU0zzU07s0DzzzzU0zzzzzzz01zy00Tk0Tzzzz01zzzzzzy03zU00zU0zzzzy03zzzzzzw000003z000003w07zzzzzzs000007y000003s0Dzzzzzzk00000Tw000003k0TzzzzzzU00001zs000007U0zzzzzzz000007zk00000D01zzzzzzy00000TzU00000S03zzzzzzw00001zz000000w07zzzzzzs0000Dzy000001s0Dzzzzzzk0001zzw000007k0Tzzzzzzk000Dzzw00000Dk1zzzzzzzk003zzzy00000zs7zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "version": 1,
+    "workflows": {
+      "sequence-1": {
+        "name": "Walk to Raids",
+        "steps": [
+          {
+            "action": "click",
+            "button": "Left",
+            "id": "step-1",
+            "missing": "error",
+            "name": "Click Areas",
+            "target": "image-2",
+            "timeoutMs": 0
+          },
+          {
+            "action": "delay",
+            "durationMs": 500,
+            "id": "step-7"
+          },
+          {
+            "action": "click-point",
+            "button": "Left",
+            "id": "step-2",
+            "name": "Click Raids",
+            "x": 494,
+            "y": 416
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-8"
+          },
+          {
+            "action": "walk",
+            "durationMs": 600,
+            "id": "step-3",
+            "keys": [
+              "A"
+            ],
+            "sprint": 0,
+            "sprintKey": "Shift"
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-9"
+          },
+          {
+            "action": "walk",
+            "durationMs": 7000,
+            "id": "step-4",
+            "keys": [
+              "W"
+            ],
+            "sprint": 1,
+            "sprintKey": "Shift"
+          },
+          {
+            "action": "move",
+            "id": "step-5",
+            "name": "Move to scroll area",
+            "x": 786,
+            "y": 208
+          },
+          {
+            "action": "delay",
+            "durationMs": 500,
+            "id": "step-14"
+          },
+          {
+            "action": "until",
+            "condition": {
+              "checks": [
+                {
+                  "selectedImage": "setting-1",
+                  "state": "present"
+                }
+              ],
+              "operator": "all"
+            },
+            "failure": "error",
+            "id": "step-6",
+            "intervalMs": 300,
+            "name": "Find Selected Stage",
+            "steps": [
+              {
+                "action": "scroll",
+                "count": 1,
+                "direction": "Down",
+                "id": "step-1",
+                "intervalMs": 100,
+                "ticks": 1
+              }
+            ],
+            "timeoutMs": 60000
+          },
+          {
+            "action": "delay",
+            "durationMs": 500,
+            "id": "step-15"
+          },
+          {
+            "action": "click-setting",
+            "button": "Left",
+            "id": "step-10",
+            "missing": "error",
+            "name": "Click Stage",
+            "setting": "setting-1",
+            "timeoutMs": 0
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-16"
+          },
+          {
+            "action": "click-point",
+            "button": "Left",
+            "id": "step-11",
+            "name": "Click Select",
+            "x": 400,
+            "y": 440
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-17"
+          },
+          {
+            "action": "click-point",
+            "button": "Left",
+            "id": "step-12",
+            "name": "Click Play Here",
+            "x": 337,
+            "y": 326
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-18"
+          },
+          {
+            "action": "click-point",
+            "button": "Left",
+            "id": "step-13",
+            "name": "Click Play",
+            "x": 395,
+            "y": 460
+          },
+          {
+            "action": "delay",
+            "durationMs": 1000,
+            "id": "step-19"
+          }
+        ]
+      },
+      "sequence-2": {
+        "name": "Enter Game",
+        "steps": [
+          {
+            "action": "call",
+            "id": "step-1",
+            "name": "Start Raids Game",
+            "workflow": "sequence-1"
+          },
+          {
+            "action": "wait",
+            "condition": {
+              "checks": [
+                {
+                  "state": "present",
+                  "target": "image-12"
+                }
+              ],
+              "operator": "all"
+            },
+            "id": "step-2",
+            "missing": "error",
+            "name": "Wait For match load in",
+            "timeoutMs": 30000
+          },
+          {
+            "action": "until",
+            "condition": {
+              "checks": [
+                {
+                  "state": "present",
+                  "target": "image-11"
+                }
+              ],
+              "operator": "any"
+            },
+            "failure": "error",
+            "id": "step-7",
+            "intervalMs": 1000,
+            "name": "Repeat until lobby detected",
+            "steps": [
+              {
+                "action": "camera",
+                "id": "step-1",
+                "tilt": 299,
+                "zoomIn": 20,
+                "zoomOut": 20
+              },
+              {
+                "action": "placements",
+                "fallback": "shared",
+                "id": "step-2",
+                "route": "setting",
+                "setting": "setting-1"
+              },
+              {
+                "action": "outcome",
+                "defeat": "image-9",
+                "elseSteps": [
+                  {
+                    "action": "click",
+                    "button": "Left",
+                    "id": "dismiss-result",
+                    "missing": "error",
+                    "name": "Click end-screen Next",
+                    "target": "image-10",
+                    "timeoutMs": 10000
+                  },
+                  {
+                    "id": "reward-transition",
+                    "name": "Wait for reward screen",
+                    "action": "delay",
+                    "durationMs": 700
+                  },
+                  {
+                    "id": "dismiss-reward-items",
+                    "name": "Click through items until result menu",
+                    "action": "until",
+                    "condition": {
+                      "operator": "all",
+                      "checks": [
+                        {
+                          "target": "image-5",
+                          "state": "present"
+                        }
+                      ]
+                    },
+                    "timeoutMs": 30000,
+                    "intervalMs": 700,
+                    "failure": "error",
+                    "steps": [
+                      {
+                        "id": "dismiss-item",
+                        "action": "click",
+                        "name": "Dismiss next reward item",
+                        "target": "image-10",
+                        "button": "Left",
+                        "timeoutMs": 10000,
+                        "missing": "error"
+                      }
+                    ]
+                  },
+                  {
+                    "action": "if",
+                    "condition": {
+                      "checks": [
+                        {
+                          "state": "present",
+                          "target": "image-6"
+                        }
+                      ],
+                      "operator": "all"
+                    },
+                    "elseSteps": [
+                      {
+                        "action": "click",
+                        "button": "Left",
+                        "id": "click-lobby",
+                        "missing": "error",
+                        "name": "Return to lobby",
+                        "target": "image-5",
+                        "timeoutMs": 10000
+                      },
+                      {
+                        "action": "wait",
+                        "condition": {
+                          "checks": [
+                            {
+                              "state": "present",
+                              "target": "image-11"
+                            }
+                          ],
+                          "operator": "all"
+                        },
+                        "id": "wait-lobby",
+                        "missing": "error",
+                        "name": "Wait for lobby",
+                        "timeoutMs": 60000
+                      }
+                    ],
+                    "id": "replay-available",
+                    "name": "Replay if available; otherwise Lobby",
+                    "thenSteps": [
+                      {
+                        "action": "click",
+                        "button": "Left",
+                        "id": "click-replay",
+                        "missing": "error",
+                        "name": "Click Replay",
+                        "target": "image-6",
+                        "timeoutMs": 10000
+                      },
+                      {
+                        "action": "delay",
+                        "durationMs": 1000,
+                        "id": "transition-delay"
+                      },
+                      {
+                        "action": "wait",
+                        "condition": {
+                          "checks": [
+                            {
+                              "state": "present",
+                              "target": "image-12"
+                            }
+                          ],
+                          "operator": "all"
+                        },
+                        "id": "wait-match",
+                        "missing": "error",
+                        "name": "Wait for match load in",
+                        "timeoutMs": 60000
+                      }
+                    ]
+                  }
+                ],
+                "id": "step-5",
+                "name": "Match result and next action",
+                "thenSteps": [
+                  {
+                    "action": "click",
+                    "button": "Left",
+                    "id": "dismiss-result",
+                    "missing": "error",
+                    "name": "Click end-screen Next",
+                    "target": "image-10",
+                    "timeoutMs": 10000
+                  },
+                  {
+                    "id": "reward-transition",
+                    "name": "Wait for reward screen",
+                    "action": "delay",
+                    "durationMs": 700
+                  },
+                  {
+                    "id": "dismiss-reward-items",
+                    "name": "Click through items until result menu",
+                    "action": "until",
+                    "condition": {
+                      "operator": "all",
+                      "checks": [
+                        {
+                          "target": "image-5",
+                          "state": "present"
+                        }
+                      ]
+                    },
+                    "timeoutMs": 30000,
+                    "intervalMs": 700,
+                    "failure": "error",
+                    "steps": [
+                      {
+                        "id": "dismiss-item",
+                        "action": "click",
+                        "name": "Dismiss next reward item",
+                        "target": "image-10",
+                        "button": "Left",
+                        "timeoutMs": 10000,
+                        "missing": "error"
+                      }
+                    ]
+                  },
+                  {
+                    "action": "if",
+                    "condition": {
+                      "checks": [
+                        {
+                          "comparison": "equals",
+                          "setting": "setting-2",
+                          "value": "option-1"
+                        }
+                      ],
+                      "operator": "all"
+                    },
+                    "elseSteps": [
+                      {
+                        "action": "if",
+                        "condition": {
+                          "checks": [
+                            {
+                              "comparison": "equals",
+                              "setting": "setting-2",
+                              "value": "option-3"
+                            }
+                          ],
+                          "operator": "all"
+                        },
+                        "elseSteps": [
+                          {
+                            "action": "click",
+                            "button": "Left",
+                            "id": "click-lobby",
+                            "missing": "error",
+                            "name": "Return to lobby",
+                            "target": "image-5",
+                            "timeoutMs": 10000
+                          },
+                          {
+                            "action": "wait",
+                            "condition": {
+                              "checks": [
+                                {
+                                  "state": "present",
+                                  "target": "image-11"
+                                }
+                              ],
+                              "operator": "all"
+                            },
+                            "id": "wait-lobby",
+                            "missing": "error",
+                            "name": "Wait for lobby",
+                            "timeoutMs": 60000
+                          }
+                        ],
+                        "id": "next-choice",
+                        "name": "Next Act or Lobby",
+                        "thenSteps": [
+                          {
+                            "id": "next-available",
+                            "name": "Next stage if available; otherwise Lobby",
+                            "action": "if",
+                            "condition": {
+                              "operator": "all",
+                              "checks": [
+                                {
+                                  "target": "image-7",
+                                  "state": "present"
+                                }
+                              ]
+                            },
+                            "thenSteps": [
+                              {
+                                "id": "click-next-stage",
+                                "action": "click",
+                                "name": "Click Next Level",
+                                "target": "image-7",
+                                "button": "Left",
+                                "timeoutMs": 10000,
+                                "missing": "error"
+                              },
+                              {
+                                "id": "transition-delay",
+                                "action": "delay",
+                                "durationMs": 1000
+                              },
+                              {
+                                "id": "wait-match",
+                                "name": "Wait for match load in",
+                                "action": "wait",
+                                "condition": {
+                                  "operator": "all",
+                                  "checks": [
+                                    {
+                                      "target": "image-12",
+                                      "state": "present"
+                                    }
+                                  ]
+                                },
+                                "timeoutMs": 60000,
+                                "missing": "error"
+                              }
+                            ],
+                            "elseSteps": [
+                              {
+                                "action": "click",
+                                "button": "Left",
+                                "id": "click-lobby",
+                                "missing": "error",
+                                "name": "Return to lobby",
+                                "target": "image-5",
+                                "timeoutMs": 10000
+                              },
+                              {
+                                "action": "wait",
+                                "condition": {
+                                  "checks": [
+                                    {
+                                      "state": "present",
+                                      "target": "image-11"
+                                    }
+                                  ],
+                                  "operator": "all"
+                                },
+                                "id": "wait-lobby",
+                                "missing": "error",
+                                "name": "Wait for lobby",
+                                "timeoutMs": 60000
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "id": "victory-choice",
+                    "name": "After Victory choice",
+                    "thenSteps": [
+                      {
+                        "action": "if",
+                        "condition": {
+                          "checks": [
+                            {
+                              "state": "present",
+                              "target": "image-6"
+                            }
+                          ],
+                          "operator": "all"
+                        },
+                        "elseSteps": [
+                          {
+                            "action": "click",
+                            "button": "Left",
+                            "id": "click-lobby",
+                            "missing": "error",
+                            "name": "Return to lobby",
+                            "target": "image-5",
+                            "timeoutMs": 10000
+                          },
+                          {
+                            "action": "wait",
+                            "condition": {
+                              "checks": [
+                                {
+                                  "state": "present",
+                                  "target": "image-11"
+                                }
+                              ],
+                              "operator": "all"
+                            },
+                            "id": "wait-lobby",
+                            "missing": "error",
+                            "name": "Wait for lobby",
+                            "timeoutMs": 60000
+                          }
+                        ],
+                        "id": "replay-available",
+                        "name": "Replay if available; otherwise Lobby",
+                        "thenSteps": [
+                          {
+                            "action": "click",
+                            "button": "Left",
+                            "id": "click-replay",
+                            "missing": "error",
+                            "name": "Click Replay",
+                            "target": "image-6",
+                            "timeoutMs": 10000
+                          },
+                          {
+                            "action": "delay",
+                            "durationMs": 1000,
+                            "id": "transition-delay"
+                          },
+                          {
+                            "action": "wait",
+                            "condition": {
+                              "checks": [
+                                {
+                                  "state": "present",
+                                  "target": "image-12"
+                                }
+                              ],
+                              "operator": "all"
+                            },
+                            "id": "wait-match",
+                            "missing": "error",
+                            "name": "Wait for match load in",
+                            "timeoutMs": 60000
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "timeoutMs": 1800000,
+                "victory": "image-8"
+              }
+            ],
+            "timeoutMs": 1800000
+          }
+        ]
+      }
+    }
+  },
+  "format": "pantheon-macro",
+  "id": "macro-2b663fca283bf649bc4c5dd6764e0e86",
+  "version": 1,
+  "minPantheonVersion": "1.0-beta.1"
+}

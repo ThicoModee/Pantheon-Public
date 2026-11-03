@@ -1,0 +1,146 @@
+<!doctype html>
+
+
+
+<html lang="en" data-accent="violet">
+
+
+
+<head>
+
+
+
+  <meta charset="utf-8">
+
+
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+  <meta name="color-scheme" content="dark">
+
+
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+
+
+
+  <title>Pantheon</title>
+
+
+
+  <link rel="icon" href="assets/pantheon.ico">
+
+
+
+  <link rel="stylesheet" href="styles.css">
+
+
+
+  <script defer src="icons.js"></script><script defer src="model.js"></script><script defer src="run-settings-schema.js"></script><script defer src="run-settings.js"></script><script defer src="developer-tools.js"></script><script defer src="editor-interactions.js"></script><script defer src="macro-settings.js"></script><script defer src="framework-editor.js"></script><script defer src="placements.js"></script><script defer src="placement-editor.js"></script><script defer src="play-editor.js"></script><script defer src="app.js"></script>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+  <a class="skip" href="#main">Skip to content</a>
+
+
+
+  <header class="app-header"><a href="#dashboard" class="brand"><img src="assets/pantheon.png" alt="Pantheon helmet"><strong>Pantheon</strong></a><span class="header-divider"></span><span id="breadcrumb">Dashboard</span><div class="header-right"><span class="build">v1.0-beta.1</span></div><div class="window-controls"><button data-window="minimize" aria-label="Minimize window"><span data-icon="minus"></span></button><button data-window="maximize" aria-label="Maximize or restore window"><span data-icon="square"></span></button><button data-window="close" aria-label="Close Pantheon"><span data-icon="x"></span></button></div></header>
+
+
+
+  <aside class="sidebar"><div class="sidebar-title"><span>WORKSPACE</span><button class="icon-button" id="collapse" aria-label="Collapse sidebar" title="Collapse sidebar" data-icon="panel"></button></div><nav aria-label="Workspace"><a href="#dashboard" data-page="dashboard" title="Dashboard"><span data-icon="grid"></span><span class="nav-text">Dashboard</span></a><p class="nav-section">TOOLS</p><a href="#loadout" data-page="loadout"><span data-icon="pin"></span><span class="nav-text">Placement setup</span></a><a href="#developer" data-page="developer" id="developer-nav" hidden><img src="assets/pantheon.png" class="sidebar-dev-icon" alt=""><span class="nav-text">Developer tools</span></a><a href="#controls" data-page="controls" title="Controls"><span data-icon="keyboard"></span><span class="nav-text">Controls</span></a><a href="#settings" data-page="settings" title="Settings"><span data-icon="settings"></span><span class="nav-text">Settings</span></a></nav><div class="sidebar-bottom"><button class="button discord-button" id="join-discord" aria-label="Join Discord"><span data-icon="external"></span><span class="discord-label">Join Discord</span></button><div class="sidebar-state"><i class="dot" id="operation-dot"></i><div><strong id="sidebar-status">Ready</strong><small id="hotkey-hint">F2 start / stop</small></div></div><small class="sidebar-version">Version 1.0-beta.1</small></div></aside>
+
+
+
+  <main id="main" tabindex="-1">
+
+
+
+    <div id="connection-banner" class="notice" hidden></div>
+
+
+
+    <section class="page workspace-page" id="page-dashboard" hidden><div id="hub-selection"><div class="page-heading"><div><h1>Dashboard</h1></div><div class="action-group hub-actions"><button class="button" id="import-macro">Import macro</button><button class="button" id="refresh-library"><span data-icon="refresh"></span>Refresh</button></div></div><div class="library-toolbar"><div class="segments" aria-label="Filter macros"><button class="active" data-filter="all">All <span id="hub-count">0</span></button><button data-filter="favorites">Favourites</button></div><label class="search-field"><span data-icon="search"></span><input id="macro-search" type="search" placeholder="Search macros…" aria-label="Search macros"></label></div><div class="macro-grid" id="macro-grid"></div><div id="empty-macros" class="empty-state" hidden>No macros found</div></div><div id="macro-dashboard" hidden>
+
+
+
+<div class="page-heading workspace-heading"><div class="workspace-name"><button class="icon-button" id="back-to-hub" aria-label="Back to macro selection"><span data-icon="arrow-left"></span></button><span id="workspace-icon"></span><h1 id="workspace-title">Macro</h1></div><div class="action-group"><button class="button" id="show-run-settings"><span data-icon="settings"></span>Settings</button><button class="button" id="pause-engine" disabled><span data-icon="pause"></span><span id="pause-label">Pause</span></button><button class="button primary" id="start-engine"><span id="start-icon" data-icon="play"></span><span id="start-label">Start macro</span></button></div></div>
+
+
+
+<div class="macro-workspace"><section class="panel live-panel"><div class="panel-top"><h2>Roblox live view</h2><label class="pin-label"><input type="checkbox" class="switch" role="switch" id="pin-roblox" checked><span>Pinned</span></label></div><div id="game-mount" class="game-mount"><div class="game-empty" id="game-empty"><span data-icon="scan-search"></span><p id="game-empty-title">Roblox is not open. It will pin here automatically.</p></div></div></section>
+
+
+
+<section class="panel workspace-status"><h2>Current run</h2><strong id="phase-text">Ready to run.</strong><p class="current-task" id="current-task">Current task: none</p><div class="runtime-block"><span>Runtime</span><strong id="runtime">00:00:00</strong></div><div class="run-totals"><div><span>Victories</span><strong id="victories">0</strong></div><div><span>Defeats</span><strong id="defeats">0</strong></div></div><label class="engine-log-label" for="engine-log">Run log</label><pre id="engine-log" class="engine-log" aria-live="polite"></pre></section></div><section class="panel workspace-settings run-configuration" id="run-configuration"><div class="run-settings-heading"><div><h2 id="macro-settings-title">Settings</h2><p id="macro-setup-summary">Settings for the selected macro</p></div><button class="button" id="configure-selected"><span data-icon="pin"></span>Placement setup</button></div><div id="run-settings-fields"></div><section id="authored-settings-panel" hidden><h3>Macro settings</h3><div id="authored-settings-fields"></div><div class="settings-save-row"><button class="button primary" id="save-authored-settings">Save macro settings</button></div></section><div class="settings-save-row"><span id="run-settings-state">Loading…</span><button class="button primary" id="save-run-settings" disabled>Save settings</button></div></section>
+
+
+
+</div></section>
+
+
+
+
+
+
+
+        <section class="page placement-page" id="page-loadout" hidden><div class="placement-layout"><aside class="route-rail"><div class="route-rail-heading"><h2>PLACEMENT SETUP</h2><button class="icon-button" id="add-route" aria-label="Add route"><span data-icon="plus"></span></button></div><strong id="placement-macro"></strong><div id="route-list"></div></aside><div class="placement-content"><section class="panel route-heading"><span>Route</span><h2 id="route-title">Shared setup</h2></section>
+<section class="panel screenshot-panel"><div class="screenshot-toolbar"><button class="button" id="align-spawn"><span data-icon="camera"></span>Align Roblox</button><button class="button" id="capture-spawn"><span data-icon="camera"></span>Capture</button><button class="button" id="import-spawn"><span data-icon="image"></span>Import</button><div class="zoom-controls"><button class="icon-button" id="zoom-out" aria-label="Zoom out"><span data-icon="minus"></span></button><button id="zoom-reset" class="button">100%</button><button class="icon-button" id="zoom-in" aria-label="Zoom in"><span data-icon="plus"></span></button></div></div><div id="placement-viewport"><div id="placement-scaled"><div id="placement-surface"><img id="spawn-image" alt="Spawn area" draggable="false" hidden><div id="placement-empty"><span data-icon="scan-search"></span><p id="placement-empty-text">Capture or import a spawn screenshot.</p></div><div id="placement-markers"></div></div></div></div></section>
+<label class="setting-row">Use Shared setup for all maps<input id="placement-use-shared" type="checkbox" class="switch"></label><section class="panel team-panel"><label>Team<select id="placement-team"></select></label><div><label>Unit slot</label><div id="slot-buttons"></div></div><span id="point-action">Click screenshot to place a unit</span></section>
+<section class="panel match-panel"><div class="panel-top"><div><h2>Match steps</h2><p id="match-step-count"></p></div><div class="action-picker"><button class="button" id="add-step"><span data-icon="plus"></span>Add action</button></div></div><div id="match-step-list"></div></section>
+<div class="placement-footer"><span id="placement-save-state">Saved</span><div class="action-group"><button class="button" id="revert-placement" disabled>Revert</button><button class="button primary" id="save-placement" disabled><span data-icon="save"></span>Save setup</button></div></div></div></div></section>
+<section class="page" id="page-controls" hidden><div class="page-heading"><div><h1>Controls</h1></div><button class="button primary" id="apply-controls"><span data-icon="check"></span>Apply shortcuts</button></div><section class="panel controls-panel"><div class="panel-top"><div><h2>Macro shortcuts</h2><p>Click a key, then press your preferred shortcut.</p></div><button class="text-button" id="reset-controls">Use defaults</button></div><div id="control-rows"></div><div class="panel-note"><span data-icon="info"></span>Shortcuts are active in the selected macro workspace.</div></section><section class="panel controls-panel"><div class="panel-top"><div><h2>In-game controls</h2><p>Defaults for shared placement playback. Macro settings can override these keys.</p><div id="play-controls"></div><button class="button" id="save-play-controls">Save in-game controls</button></div></div></section></section>
+
+
+
+    <section class="page" id="page-settings" hidden><div class="page-heading"><div><h1>Settings</h1></div><span class="autosave-label"><i class="dot good"></i>Appearance saves automatically</span></div><section class="panel general-run-settings"><div class="panel-top"><h2>General macro settings</h2></div><div id="general-settings-fields"></div><div class="connection-tests"><button class="button" id="test-webhook">Test webhook</button></div><div class="settings-save-row"><span id="general-settings-state">Loading…</span><button class="button primary" id="save-general-settings" disabled>Save general settings</button></div></section><section class="panel settings-panel"><div class="panel-top"><div><h2>Appearance</h2></div><span class="small-icon" data-icon="palette"></span></div><div class="setting-row"><div><strong>Accent colour</strong></div><div class="swatches" aria-label="Accent colour"><button data-accent="violet" class="swatch violet" aria-label="Violet" title="Violet"></button><button data-accent="neutral" class="swatch neutral" aria-label="Graphite" title="Graphite"></button><button data-accent="gold" class="swatch gold" aria-label="Pantheon gold" title="Pantheon gold"></button></div></div><div class="setting-row"><div><strong>Interface size</strong><p>Adjust the size of text and controls.</p></div><select id="interface-size" aria-label="Interface size"><option value="90">Compact · 90%</option><option value="100">Default · 100%</option><option value="110">Comfortable · 110%</option></select></div><div class="setting-row"><div><strong>Compact sidebar</strong></div><input type="checkbox" class="switch" role="switch" id="compact-sidebar"></div></section><section class="panel about-panel"><img src="assets/pantheon.png" alt="Pantheon helmet"><div><h2>Pantheon Hub <span class="pill">v1.0-beta.1</span></h2><p>Roblox tower defence macros · By ThicoModee and contributors</p></div></section><section class="panel settings-panel developer-panel"><div class="setting-row"><div><h2>Developer mode</h2><p>Shows Developer tools in the Tools sidebar</p></div><input type="checkbox" class="switch" role="switch" id="developer-mode" aria-label="Developer mode"></div></section></section>
+
+
+
+<section class="page developer-workspace" id="page-developer" hidden><div class="page-heading"><div class="workspace-name"><button class="icon-button" id="developer-back" aria-label="Back to macro selection"><span data-icon="arrow-left"></span></button><img class="developer-brand" src="assets/pantheon.png" alt="Pantheon helmet"><h1>Developer tools</h1></div></div><section class="panel developer-panel"><div id="developer-tools" hidden><section id="framework-editor" hidden><div class="developer-toolbar"><label>Editing macro<select id="framework-package"></select></label><button class="button" id="framework-new-macro">New macro</button><button class="button" id="framework-export-macro">Copy macro configuration</button></div><p id="framework-empty" hidden>No macro configurations. Create a new macro or import one from the dashboard.</p><div id="framework-content"><section class="panel play-author"><h3>Maps</h3><div id="play-maps"></div><div class="action-group"><select id="play-map-parent" aria-label="Parent map"><option value="">Top-level map</option></select><input id="play-map-name" maxlength="80" placeholder="Map name"><button class="button" id="play-add-map">Add map</button></div></section><section class="panel play-author"><h3>Placement controls</h3><label>Targeting order (comma separated)<input id="play-target-order" maxlength="640"></label><label class="setting-row">Game supports auto upgrade<input id="play-auto-upgrade" type="checkbox" class="switch"></label><label>Auto upgrade priority levels<input id="play-auto-levels" type="number" min="1" max="10" value="3"></label></section><div class="framework-fields"><label>Macro name<input id="framework-macro-name" maxlength="100"></label><label class="macro-icon-field">Icon<div class="macro-icon-choice"><img id="framework-icon-preview" src="assets/pantheon.png" alt="Selected macro icon"><select id="framework-icon"></select></div></label><label>Game<input id="framework-game-id" maxlength="48"></label><label>Starting sequence<select id="framework-entry"></select></label><label>Run mode<select id="framework-run-mode"><option value="once">Run once</option><option value="repeat">Repeat main sequence</option></select></label></div><details class="flow-settings-author"><summary>Macro settings</summary><div id="framework-setting-fields"></div><div class="developer-toolbar"><select id="framework-setting-type" aria-label="Setting control type"><option value="toggle">Toggle</option><option value="checkbox">Checkbox</option><option value="select">Dropdown</option><option value="multiselect">Checkbox list</option><option value="priority">Priority list</option><option value="number">Number</option><option value="key">Key override</option></select><button class="button" id="framework-add-setting">Add setting</button></div></details><div class="panel-top"><div><h2>Sequence builder</h2></div><button class="button" id="framework-reload">Reload saved</button></div><div class="framework-layout"><section><div class="developer-toolbar"><h3>Images &amp; saved points</h3><button class="button" id="framework-add-target">Add target</button></div><label>Target<select id="framework-target"></select></label><div id="framework-target-fields"></div><div class="developer-toolbar"><button class="button primary" id="framework-capture-target">Capture target</button><button class="button" id="framework-use-capture">Use captured region</button><button class="button" id="framework-use-point">Use region centre</button><button class="button" id="framework-full-client">Search full client</button></div><p id="framework-references"></p></section><section><div class="developer-toolbar"><h3>Sequences</h3><button class="button" id="framework-delete-flow">Delete sequence</button><button class="button" id="framework-add-flow">Add sequence</button><button class="button" id="framework-stage-template">Stage entry template</button></div><label>Sequence<select id="framework-flow"></select></label><label>Name<input id="framework-flow-name" maxlength="80"></label><div id="framework-steps"></div><div class="developer-toolbar"><select id="framework-new-action" aria-label="New action"><option>click</option><option>wait</option><option>delay</option><option>key</option><option>call</option><option>repeat</option><option>if</option></select><button class="button" id="framework-add-step">Add step</button></div></section></div><div class="settings-save-row"><span id="framework-state"></span><div class="action-group"><button class="button" id="framework-discard" disabled>Discard draft</button><button class="button primary" id="framework-save" disabled>Save macro</button></div></div></div></section><div class="setting-row"><div><strong>Live coordinate viewer</strong><p>Screen and Roblox client coordinates with pixel colour. Ctrl+Shift+C copies the reading while enabled.</p></div><input type="checkbox" class="switch" role="switch" id="developer-coordinates" aria-label="Live coordinate viewer"></div><div class="developer-toolbar"><button class="button primary" id="developer-select"><span data-icon="camera"></span>Select region in Roblox</button><button class="button" id="developer-capture"><span data-icon="camera"></span>Capture Roblox</button><span>Pinning is optional. Captures at 800 × 600.</span></div><div id="developer-image-tools" hidden><div class="developer-toolbar"><span>Drag over an icon or text to select its FindText region</span><label>Zoom<select id="developer-zoom"><option value="1">100%</option><option value="2">200%</option><option value="4">400%</option></select></label></div><div class="developer-canvas-scroll"><canvas id="developer-canvas" width="800" height="600" aria-label="Roblox capture. Drag to select a detection region."></canvas></div><output id="developer-pixel">Client coordinates and RGB appear here</output><div class="developer-region-fields"><label>X<input id="developer-x" type="number" min="0" max="799" value="0"></label><label>Y<input id="developer-y" type="number" min="0" max="599" value="0"></label><label>Width<input id="developer-width" type="number" min="1" max="800" value="800"></label><label>Height<input id="developer-height" type="number" min="1" max="600" value="600"></label></div><div class="developer-toolbar"><button class="button" id="developer-copy-area">Copy coordinates</button><button class="button" id="developer-export"><span data-icon="image"></span>Save PNG region</button></div><div class="setting-row"><label for="developer-threshold">FindText grayscale threshold <output id="developer-threshold-value">99</output></label><input id="developer-threshold" type="range" min="0" max="255" value="99"></div><div class="developer-binary-scroll"><canvas id="developer-binary" aria-label="FindText black and white preview"></canvas></div><span id="developer-pattern-size"></span><label class="developer-pattern-label">FindText pattern<textarea id="developer-pattern" rows="4" readonly spellcheck="false"></textarea></label><div class="developer-toolbar"><button class="button primary" id="developer-copy-pattern">Copy FindText pattern</button><label>Allowed mismatch (%)<input id="developer-tolerance" type="number" min="0" max="20" value="0"></label><button class="button" id="developer-test">Test in Roblox</button></div></div><p id="developer-result" role="status"></p></div></section></section>
+
+
+
+
+
+
+
+  </main><dialog id="step-dialog"><form id="step-form"><div class="match-dialog-heading"><h2 id="step-dialog-title">Add match step</h2><button type="button" class="icon-button" id="match-action-close" aria-label="Close action dialog"><span data-icon="x"></span></button></div><fieldset class="match-action-fieldset"><legend>Action</legend><div id="match-action-choices" class="match-action-choices"></div></fieldset><label class="setting-row">Enable action<input id="step-enabled" class="switch" type="checkbox" checked></label><label><span id="step-delay-title">Delay before action (seconds)</span><input id="step-delay" type="number" min="0" max="600" step="0.001" required></label><label id="step-reference-fields" hidden>Placed unit<select id="step-placement"></select></label><div id="step-position-fields" class="step-form-grid"><label>Unit slot<select id="step-slot"></select></label><label>X<input id="step-x" type="number" min="0" max="799" required></label><label>Y<input id="step-y" type="number" min="0" max="599" required></label></div><button type="button" class="button" id="step-pick">Select coordinates in Roblox</button><section id="step-targeting-fields"><label id="step-target-toggle" class="setting-row">Change targeting priority<input id="step-change-targeting" type="checkbox" class="switch" checked></label><label>Targeting priority<select id="step-targeting"></select></label></section><label id="step-auto-fields"><span id="step-auto-label">Auto upgrade priority</span><select id="step-auto-upgrade"></select></label><label id="step-repeat-label">Upgrade Unit presses<input id="step-repeat" type="number" min="1" max="20" required></label><label id="step-timeout-label">Placement timeout (seconds)<input id="step-timeout" type="number" min="1" max="180" step="0.001" required></label><div class="dialog-actions"><button class="button" value="cancel" formnovalidate>Cancel</button><button class="button primary" value="save">Apply</button></div></form></dialog><dialog id="route-dialog"><form id="route-form"><h2>Add route</h2><label>Route name<input id="new-route-name" maxlength="80" required></label><div class="dialog-actions"><button class="button" value="cancel" formnovalidate>Cancel</button><button class="button primary" value="save">Add route</button></div></form></dialog>
+
+
+
+  <div id="app-tooltip" role="tooltip" hidden></div>
+
+
+
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+
+
+
+  <dialog id="macro-import-dialog"><h2>Import macro configuration</h2><label>Paste configuration<textarea id="macro-import-text" rows="9" maxlength="500000" spellcheck="false"></textarea></label><p id="macro-import-review" role="status"></p><div class="dialog-actions"><button class="button" id="macro-import-cancel">Cancel</button><button class="button" id="macro-import-preview">Review configuration</button><button class="button primary" id="macro-import-install" disabled>Add to dashboard</button></div></dialog><dialog id="confirm-dialog"><form method="dialog"><div class="dialog-symbol" data-icon="info"></div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-actions"><button class="button" value="cancel">Cancel</button><button class="button primary" id="dialog-confirm" value="confirm">Continue</button></div></form></dialog>
+
+
+
+
+
+
+
+<button id="resize-grip" class="icon-button" aria-label="Resize window"><span data-icon="grip-vertical"></span></button><noscript>Pantheon requires JavaScript to display this interface.</noscript>
+
+
+
+</body>
+
+
+
+</html>

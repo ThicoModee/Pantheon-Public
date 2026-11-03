@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "name": "Test fixture",
+  "game": "fixture-td",
+  "mode": "custom",
+  "entry": "enter-map",
+  "runMode": "once",
+  "client": {
+    "width": 800,
+    "height": 600
+  },
+  "targets": {
+    "enter-confirm": {
+      "name": "First point",
+      "kind": "point",
+      "pattern": "",
+      "x": 400,
+      "y": 430,
+      "width": 1,
+      "height": 1,
+      "error1": 0,
+      "error0": 0,
+      "offsetX": 0,
+      "offsetY": 0
+    },
+    "enter-start": {
+      "name": "Second point",
+      "kind": "point",
+      "pattern": "",
+      "x": 400,
+      "y": 460,
+      "width": 1,
+      "height": 1,
+      "error1": 0,
+      "error0": 0,
+      "offsetX": 0,
+      "offsetY": 0
+    },
+    "popup-close": {
+      "name": "Popup close",
+      "kind": "pattern",
+      "pattern": "|<>*99$1.k",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600,
+      "error1": 0,
+      "error0": 0,
+      "offsetX": 0,
+      "offsetY": 0
+    },
+    "close-a": {
+      "name": "Close button A",
+      "kind": "pattern",
+      "pattern": "|<>*99$1.k",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600,
+      "error1": 0,
+      "error0": 0,
+      "offsetX": 0,
+      "offsetY": 0
+    },
+    "close-b": {
+      "name": "Close button B",
+      "kind": "pattern",
+      "pattern": "|<>*99$1.k",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600,
+      "error1": 0,
+      "error0": 0,
+      "offsetX": 0,
+      "offsetY": 0
+    }
+  },
+  "settings": {},
+  "workflows": {
+    "enter-map": {
+      "name": "Fixture entry",
+      "steps": [
+        {
+          "id": "click",
+          "action": "click",
+          "target": "enter-confirm",
+          "button": "Left",
+          "timeoutMs": 0,
+          "missing": "error"
+        }
+      ]
+    }
+  }
+}

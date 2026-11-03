@@ -1,0 +1,53 @@
+# Shared camera and placement playback
+
+## Connect a macro sequence
+
+After the sequence confirms that the stage has loaded:
+
+1. Add **Set bird’s-eye camera**. Its defaults zoom in 20 ticks, tilt down, then zoom out 20 ticks. Adjust the values to match the camera used for the map screenshot.
+2. Add **Run placement setup**.
+3. Choose **Player’s selected setup**, **Shared setup**, a named map, or **Map from dropdown setting**.
+4. Choose whether an unconfigured map uses Shared setup or stops with an error.
+5. Continue with the macro’s finish-image checks and stage-ending sequence.
+
+Playback returns after the saved match actions. Do not put the whole placement action inside a finish-detection polling loop: that would repeat placement and Start Game inputs.
+
+## Creator maps and stage settings
+
+Enable Developer mode in Settings, then open **Tools → Developer tools**. In **Maps & in-game controls**, enter a map name and click **Add map**. Save the macro. These map names and stable IDs travel with the exported JSON; PNG files and the player's placements do not.
+
+For stage-dependent placement, open the stage dropdown in **Macro settings** and assign a **Placement map** to each option. In the sequence's **Run placement setup** action, select **Map from dropdown setting** and choose that dropdown. Every option needs a map mapping before saving.
+
+Use a consistent Game identifier across macros for the same Roblox game. Player screenshots, routes and teams are shared under `data/placements/<game>/`. Different games must use different identifiers.
+
+## Player setup
+
+Select a macro, then open **Tools → Placement setup**. The editor lists Shared setup and the creator's maps. Players may also add their own named routes for **Player’s selected setup** playback.
+
+Import the creator's 800 × 600 spawn screenshot or capture Roblox with the matching camera. Image import opens a local file picker; configurations cannot download files or choose paths. Keep the same camera position and zoom when running the macro.
+
+Choose a team and a unit slot, then click the screenshot to add a placement. Drag points to move them. Add Upgrade, Sell or Delay actions from **Add action**. Edit each action's delay and upgrade/sell repeat count. Match steps run from top to bottom; drag the grip vertically or use the movement buttons to reorder them.
+
+Edit **Start Game** to choose the game's start button coordinates. **Select coordinates in Roblox** uses a visible frozen capture and left-click selection, even when Developer mode is off. Disable Start Game if the game starts automatically. An enabled Start Game action with untouched 0,0 coordinates stops playback with a clear error before any placement inputs.
+
+**Use Shared setup for all maps** overrides the macro's selected map. Configure Shared setup before enabling it. Otherwise, a named map uses its own selected team, with the creator's chosen fallback. Save before starting; the run receives a separate snapshot.
+
+Playback issues the saved inputs and uses the configured delays. It does not infer money, successful purchases, wave numbers or upgrade costs. Allow sufficient time before placements/upgrades. Creators can use their ordinary image conditions and waits around shared playback for game-specific readiness and ending logic. A universal purchase-confirmation detector is not assumed.
+
+## Share a map image
+
+Captured/imported screenshots are PNGs under `data/placements/<game>/<map-id>.png`. Share the desired image separately from the macro JSON. Players download that image and choose **Import** on the matching map. Do not share the entire `data` directory: it contains private preferences and logs.
+
+## Keys
+
+**Controls → In-game controls** defines the player's defaults: slots 1–6, R to upgrade, X to sell and Q to cancel placement.
+
+Creators add a **Key override** setting at the bottom of Macro settings in Developer tools, select one action and record its default key. Players click that setting’s key button and press their own key. They appear in the macro's dashboard settings and override the player's global defaults for that macro only. Bindings are validated key names, not arbitrary input strings or executable code.
+
+## Validation
+
+Shared playback uses the same Roblox foreground/client checks, loop time limits, key cleanup and session isolation as ordinary sequences. Camera setup releases its held right mouse button on cancellation or failure. Test fixtures verify orchestration and stored data; test the camera and real placements in each target game before sharing a macro.
+
+Map acts and Infinite routes can be added as children of a top-level map. The placement editor groups them under an expandable header; they share the parent screenshot and keep separate timelines. See [Editor controls](EDITOR_CONTROLS.md).
+
+Upgrade, Sell and Reconfigure now reference a specific Place step and follow its current coordinate. Creators can configure targeting order and optional native auto-upgrade support; manual Upgrade presses remain available in all games. See [Placed-unit actions](PLACED_UNIT_ACTIONS.md).
