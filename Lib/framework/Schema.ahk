@@ -2,8 +2,11 @@
 #Include %A_LineFile%\..\Settings.ahk
 #Include %A_LineFile%\..\PlayControls.ahk
 #Include %A_LineFile%\..\PlacementPlan.ahk
+#Include %A_LineFile%\..\FlowErrors.ahk
+#Include %A_LineFile%\..\ManagedUpgrade.ahk
+#Include %A_LineFile%\..\PlacementFeedback.ahk
 class FlowSchema {
-    static Actions := ["click-point", "click", "click-setting", "move", "walk", "scroll", "wait", "delay", "press", "key", "call", "repeat", "for-setting", "if", "retry", "until", "stop", "camera", "placements", "outcome"]
+    static Actions := ["click-point", "click", "click-setting", "move", "walk", "scroll", "wait", "delay", "press", "key", "call", "repeat", "for-setting", "if", "retry", "until", "stop", "camera", "placements", "outcome", "click-wait", "scroll-option", "dismiss", "setting-call"]
     static Keys(raw, allowed) {
         if !(raw is Map)
             throw ValueError("Expected a definition object.")
@@ -116,7 +119,11 @@ class FlowSchema {
                     throw ValueError("Map children must belong to a top-level map.")
             }
         }
-        PlacementPlan.Config(raw.Get("playback", Map()))
+        playback := PlacementPlan.Config(raw.Get("playback", Map()))
+        if playback.Has("managedUpgrade")
+            ManagedUpgrade.Config(playback["managedUpgrade"], raw)
+        if playback.Has("placementFeedback")
+            PlacementFeedback.Config(playback["placementFeedback"], raw)
         FlowSettings.Validate(raw)
         PlayControls.Definition(raw)
         if raw.Has("entry")
@@ -215,6 +222,40 @@ class FlowSchema {
                         }
                         if step["route"] != "setting" && step["route"] != "selected" && step["route"] != "shared" && !raw.Get("maps", Map()).Has(step["route"])
                             throw ValueError("Choose a map defined by this macro or the player's selected setup.")
+                    case "click-wait", "dismiss":
+                        this.Keys(step, step["action"] == "click-wait" ? "id|action|target|ready|button|attempts|timeoutMs|intervalMs" : "id|action|target|ready|button|timeoutMs|intervalMs")
+                        this.Target(raw, step["target"]), this.Target(raw, step["ready"])
+                        if raw["targets"][step["ready"]]["kind"] != "pattern" || step["target"] == step["ready"]
+                            throw ValueError("Choose a separate ready image that confirms the next screen.")
+                        this.Enum(step["button"], ["Left", "Right"], "mouse button")
+                        this.Param(raw, step["timeoutMs"], 100, 60000, "Component timeout")
+                        this.Param(raw, step["intervalMs"], 100, 5000, "Component interval")
+                        if step["action"] == "click-wait"
+                            this.Param(raw, step["attempts"], 1, 5, "Click attempts")
+                    case "scroll-option":
+                        this.Keys(step, "id|action|setting|x|y|direction|maxScrolls|timeoutMs|intervalMs")
+                        spec := FlowSettings.Spec(raw, step["setting"])
+                        if spec["type"] != "select"
+                            throw ValueError("Scroll to option requires a dropdown setting.")
+                        for option in spec["options"] {
+                            this.Target(raw, option.Get("target", ""))
+                            if raw["targets"][option["target"]]["kind"] != "pattern"
+                                throw ValueError("Map each dropdown option to a captured image before scrolling to it.")
+                        }
+                        this.Point(step, raw), this.Enum(step["direction"], ["Up", "Down"], "scroll direction")
+                        this.Param(raw, step["maxScrolls"], 1, 100, "Maximum scrolls")
+                        this.Param(raw, step["timeoutMs"], 100, 60000, "Scroll timeout")
+                        this.Param(raw, step["intervalMs"], 100, 5000, "Scroll interval")
+                    case "setting-call":
+                        this.Keys(step, "id|action|setting|routes")
+                        spec := FlowSettings.Spec(raw, step["setting"])
+                        if spec["type"] != "select" || !(step["routes"] is Map) || step["routes"].Count != spec["options"].Length
+                            throw ValueError("Map every dropdown option to a sequence.")
+                        for option in spec["options"] {
+                            if !step["routes"].Has(option["value"])
+                                throw ValueError("Choose a sequence for option: " option["label"])
+                            this.Reference(raw, step["routes"][option["value"]])
+                        }
                     case "outcome":
                         this.Keys(step, "id|action|victory|defeat|timeoutMs|thenSteps|elseSteps")
                         for field in ["victory", "defeat"] {
@@ -362,6 +403,10 @@ class FlowSchema {
         for step in steps {
             if step["action"] == "call" || (step["action"] == "repeat" && step.Has("workflow"))
                 height := Max(height, 1+this.Visit(raw, step["workflow"], path, depth+1, done))
+            else if step["action"] == "setting-call" {
+                for option, workflow in step["routes"]
+                    height := Max(height, 1+this.Visit(raw, workflow, path, depth+1, done))
+            }
             else if step["action"] == "if" && !step.Has("condition")
                 for field in ["then", "otherwise"]
                     if step[field] != ""

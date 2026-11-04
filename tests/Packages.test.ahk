@@ -25,7 +25,7 @@ try {
     Assert(PantheonVersion.Compare("1.0.0-beta.1", "1.0-beta.1") == 0, "optional patch version normalizes")
     versionPackage := MacroPackages.Read(MacroPackages.Path(id))["package"]
     Assert(versionPackage["minPantheonVersion"] == PantheonVersion.Current, "new packages carry current minimum version")
-    versionPackage["minPantheonVersion"] := "1.0-beta.2", blocked := false
+    versionPackage["minPantheonVersion"] := "1.0-beta.3", blocked := false
     try MacroPackages.Validate(versionPackage)
     catch Error as err
         blocked := InStr(err.Message, "requires Pantheon") > 0

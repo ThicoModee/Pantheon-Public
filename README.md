@@ -1,4 +1,4 @@
-# Pantheon 1.0-beta.1
+# Pantheon 1.0-beta.2
 
 A Windows desktop launcher and visual macro editor for Roblox tower defence games. Macros are validated JSON configurations, run by a shared AutoHotkey engine.
 

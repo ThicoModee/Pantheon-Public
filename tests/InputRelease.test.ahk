@@ -47,10 +47,28 @@ try {
 
         throw Error("Control remained held during pause.")
 
+    SendMode("Input"), CoordMode("Mouse", "Client")
+    environment.Move(50, 35)
+    WinGetClientPos(&left, &top, , , "ahk_id " fixture.Hwnd)
+    previousCoordinates := A_CoordModeMouse
+    CoordMode("Mouse", "Screen"), MouseGetPos(&mx, &my)
+    CoordMode("Mouse", previousCoordinates)
+    if mx != left+50 || my != top+35
+        throw Error("Client-relative movement did not reach the expected screen pixel.")
     environment.Click(50, 35)
     Sleep(100)
     if clicks["value"] != 1 || GetKeyState("LButton") || environment.Held.Has("LButton")
         throw Error("Timed click did not activate the button once and release the mouse.")
+
+    if A_SendMode != "Input" || A_CoordModeMouse != "Client"
+        throw Error("Click did not restore the caller's input mode and coordinates.")
+    environment.Fail := true
+    failed := false
+    try environment.Click(50, 35)
+    catch Error
+        failed := true
+    if !failed || GetKeyState("LButton") || environment.Held.Has("LButton")
+        throw Error("Interrupted click failed to release the mouse button.")
 
     FileAppend("PASS: actual modifier state is released by cleanup and pause.`n", "*")
 
@@ -71,9 +89,11 @@ try {
 ExitApp(0)
 
 class ReleaseFixture extends RobloxFlowEnvironment {
+    Fail := false
 
     Check() {
-
+        if this.Fail && this.Held.Has("LButton")
+            throw Error("Simulated focus loss.")
     }
 
 }

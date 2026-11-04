@@ -6,7 +6,7 @@ class MacroHub {
     static BundledRoot := A_ScriptDir "\macros"
     static ConfigPath := A_ScriptDir "\data\hub.json"
     static History := []
-    static Config := Map("root", "", "accent", "violet", "compact", 0, "scale", 100,
+    static Config := Map("root", "", "accent", "violet", "theme", "default", "compact", 0, "scale", 100,
         "selected", "", "favorites", [], "developer", 0)
 
     static Mode(id) {
@@ -31,7 +31,9 @@ class MacroHub {
             throw ValueError("Unknown accent colour.")
         if c["scale"] != 90 && c["scale"] != 100 && c["scale"] != 110
             throw ValueError("Unknown interface size.")
-        p := Map("root", this.BundledRoot, "accent", c["accent"], "compact", ProfileStore.Int(c["compact"], 0, 1, "Sidebar"),
+        theme := c.Get("theme", "default")
+        FlowSchema.Enum(theme, ["default", "christmas", "midnight", "rose", "ember"], "interface theme")
+        p := Map("theme", theme, "root", this.BundledRoot, "accent", c["accent"], "compact", ProfileStore.Int(c["compact"], 0, 1, "Sidebar"),
             "scale", c["scale"], "selected", this.Available(c["selected"]) ? this.Mode(c["selected"]) : "", "favorites", [],
             "developer", ProfileStore.Int(c.Get("developer", 0), 0, 1, "Developer mode"))
         if !(c["favorites"] is Array) || c["favorites"].Length > 64

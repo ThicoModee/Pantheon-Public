@@ -36,7 +36,7 @@ let ws;
         case 'playControlsSave':data=m.data;break;
         case 'loadPlacements':{const p=placementPlans[m.mode]||PantheonPlacements.defaults();for(const [id,map]of Object.entries(packages[m.mode].definition.maps||{}))if(!p.routes.some(r=>r.id===id))p.routes.push({...PantheonPlacements.route(id,map.name),parent:map.parent||''});placementPlans[m.mode]=p;data={profile:structuredClone(p),frames:{},playback:packages[m.mode].definition.playback||{}};break;}
         case 'savePlacements':placementPlans[m.mode]=m.data;data={saved:1};break;
-        case 'capturePlacement':case 'importPlacementFrame':{const c=document.createElement('canvas');c.width=800;c.height=600;const x=c.getContext('2d');x.fillStyle='#263c32';x.fillRect(0,0,800,600);data={image:c.toDataURL()};break;}
+        case 'capturePlacement':case 'importPlacementFrame':case 'developerSelect':{const c=document.createElement('canvas');c.width=800;c.height=600;const x=c.getContext('2d');x.fillStyle='#263c32';x.fillRect(0,0,800,600);data={image:c.toDataURL(),region:{x:150,y:390,width:100,height:5}};break;}
         case 'placementPickPoint':data={x:350,y:100};break;
         case 'snapshot':state.macros=Object.keys(packages).map(entry);data=structuredClone(state);break;
         case 'selectWorkspace':state.config.selected=m.data;data={selected:m.data};break;
@@ -63,8 +63,9 @@ let ws;
   await call('Page.addScriptToEvaluateOnNewDocument',{source:`(${mock.toString()})(${JSON.stringify(fixture)},${JSON.stringify(schemas)})`});
   const evaluate=async expression=>{const r=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
   const until=async expr=>{const start=Date.now();while(!await evaluate(expr)){if(Date.now()-start>7000)throw Error('UI condition timed out: '+expr);await new Promise(r=>setTimeout(r,50));}};
-  const click=selector=>evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
-  const change=(selector,value)=>evaluate(`(()=>{const el=document.querySelector(${JSON.stringify(selector)});el.value=${JSON.stringify(value)};el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  const activate=selector=>evaluate(`(()=>{const panel=document.querySelector(${JSON.stringify(selector)})?.closest('[data-developer-panel]');if(panel?.hidden)document.querySelector('[data-developer-tab="'+panel.dataset.developerPanel+'"]').click();})()`);
+  const click=async selector=>{await activate(selector);return evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);};
+  const change=async(selector,value)=>{await activate(selector);return evaluate(`(()=>{const el=document.querySelector(${JSON.stringify(selector)});el.value=${JSON.stringify(value)};el.dispatchEvent(new Event('change',{bubbles:true}));})()`);};
   const shot=async name=>{const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path.join(out,name),Buffer.from(r.data,'base64'));};
   await call('Page.navigate',{url:pathToFileURL(path.join(root,'Lib/ui/index.html')).href});
   await until("!document.querySelector('#page-dashboard').hidden");
@@ -232,6 +233,109 @@ let ws;
   await click('[data-launch=macro-imported-test]');await click('[data-page=loadout]');await until("!document.querySelector('.placement-content').inert");
   await click('#add-step');assert.equal(await evaluate("document.querySelector('#step-auto-fields').hidden"),true);
   assert.equal(await evaluate("!!document.querySelector('[data-match-kind=upgrade]')"),true);await click('#match-action-close');
+
+  await evaluate(`window.__host.packages['macro-imported-test'].definition.targets=${JSON.stringify(JSON.parse(fs.readFileSync(path.join(root,'tests/data/flow-fixture.json'),'utf8')).targets)}`);
+  await click('[data-page=developer]');await click('#framework-reload');await until("!!document.querySelector('#framework-package option[value=macro-imported-test]')");await change('#framework-package','macro-imported-test');await until("document.querySelector('#framework-macro-name').value==='Imported TD'");
+  await click('[data-managed-enable]');
+  assert.equal(await evaluate("document.querySelector('[data-managed=settleMs]').value"),'0.25');
+  assert.equal(await evaluate("document.querySelector('[data-managed=settleMs]').checkValidity()"),true);
+  for(const [field,target] of [['panel','popup-close'],['affordable','close-a'],['max','close-b']])await change('[data-managed='+field+']',target);
+  await click('[data-managed-pick=close]');await until("document.querySelector('#play-managed-upgrades').textContent.includes('(321, 234)')");
+  await click('[data-managed-pick=progress]');await until("document.querySelector('#play-managed-upgrades').textContent.includes('100 × 5')");
+  await click('[data-feedback-command=add]');
+  for(const [field,target] of [['panel','popup-close'],['money','close-a'],['limit','close-b']])await change('[data-feedback='+field+']',target);
+  await change('[data-managed=intervalMs]','1.5');await click('#framework-save');await until("document.querySelector('#framework-state').textContent.startsWith('Saved')");
+  assert.equal(await evaluate("window.__host.packages['macro-imported-test'].definition.playback.managedUpgrade.intervalMs"),1500);
+  await click('[data-page=loadout]');await until("!document.querySelector('.placement-content').inert");await click('#add-step');
+  assert.equal(await evaluate("document.querySelector('#step-managed-fields').hidden"),false);
+  assert.equal(await evaluate("document.querySelector('#step-timeout-label').hidden"),false);
+  await change('#step-timeout','90');
+  await change('#step-managed-priority','2');await change('#step-managed-limit','3');await click('#step-form button[value=save]');await click('#save-placement');
+  assert.equal(await evaluate("window.__host.messages.filter(m=>m.action==='savePlacements').at(-1).data.routes.flatMap(r=>r.teams.flatMap(t=>t.steps)).some(s=>s.kind==='place'&&s.managedPriority===2&&s.managedLimit===3)"),true);
+  await shot('managed-upgrade-editor.png');
+
+  await click('[data-page=developer]');await change('#framework-new-action','delay');await click('#framework-add-step');await click('#framework-add-step');
+  const stability=await evaluate(`(()=>{
+    const list=document.querySelector('#framework-steps>.flow-step-list'),cards=[...list.children].filter(el=>el.matches('details'));
+    const previous=cards.at(-2),card=cards.at(-1),input=card.querySelector('[data-step-field=name]'),duration=card.querySelector('[data-step-field=durationMs]');
+    previous.open=false;input.scrollIntoView({block:'center'});input.focus({preventScroll:true});const top=window.scrollY;
+    input.value='Upgrade wait';input.dispatchEvent(new Event('change',{bubbles:true}));
+    const sameName=input.isConnected&&document.activeElement===input;duration.value='1.25';duration.dispatchEvent(new Event('change',{bubbles:true}));
+    const unchanged=duration.isConnected&&!previous.open&&Math.abs(window.scrollY-top)<2;
+    card.querySelector('[data-step-field=action]').value='repeat';card.querySelector('[data-step-field=action]').dispatchEvent(new Event('change',{bubbles:true}));
+    const after=[...document.querySelector('#framework-steps>.flow-step-list').children].filter(el=>el.matches('details'));
+    return {sameName,unchanged,stillClosed:!after.at(-2).open,stillOpen:after.at(-1).open};
+  })()`);
+  assert.deepEqual(stability,{sameName:true,unchanged:true,stillClosed:true,stillOpen:true});
+  await evaluate('new Promise(resolve=>setTimeout(resolve,50))');
+  assert.equal(await evaluate("[...document.querySelector('#framework-steps>.flow-step-list').children].filter(el=>el.matches('details')).at(-2).open"),false);
+  for(const position of ['top','bottom']){
+    await evaluate(position==='top'?'window.scrollTo(0,0)':'window.scrollTo(0,document.body.scrollHeight)');
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('#framework-savebar')).position"),'fixed');
+    assert.equal(await evaluate("Math.round(document.querySelector('#framework-savebar').getBoundingClientRect().bottom)===innerHeight"),true);
+  }
+  await shot('anchored-editor-savebar.png');
+
+  await click('#framework-add-target');
+  const freshTarget=await evaluate("document.querySelector('#framework-target').value");
+  assert.equal(await evaluate(`!!document.querySelector('[data-managed=panel] option[value="${freshTarget}"]')`),true);
+  assert.equal(await evaluate(`!!document.querySelector('[data-feedback=money] option[value="${freshTarget}"]')`),true);
+  await change('[data-managed=panel]',freshTarget);
+  await activate('#framework-target-fields [data-target-field=name]');
+  const renameStatus=await evaluate(`(()=>{const el=document.querySelector('#framework-target-fields [data-target-field=name]');el.focus({preventScroll:true});el.value='Selected unit panel';el.dispatchEvent(new Event('input',{bubbles:true}));const menu=document.querySelector('[data-managed=panel]');return {selected:menu.value,name:menu.selectedOptions[0].textContent,sameInput:el===document.activeElement&&el.isConnected};})()`);
+  assert.deepEqual(renameStatus,{selected:freshTarget,name:'Selected unit panel',sameInput:true});
+  assert.equal(await evaluate(`document.querySelector('#framework-target option[value="${freshTarget}"]').textContent`),'Selected unit panel');
+
+  await click('#framework-capture-bounds');
+  assert.equal(await evaluate("document.querySelector('[data-target-field=x]').value"),'150');
+  assert.equal(await evaluate("document.querySelector('[data-target-field=width]').value"),'100');
+  assert.equal(await evaluate("document.querySelectorAll('[data-developer-tab]').length"),6);
+  for(const tab of ['macro','sequences','images','placement','capture','guide']){
+    await click('[data-developer-tab='+tab+']');
+    assert.equal(await evaluate("[...document.querySelectorAll('[data-developer-panel]')].filter(p=>!p.hidden).length"),1);
+    assert.equal(await evaluate(`document.querySelector('[data-developer-panel=${tab}]').hidden`),false);
+    assert.equal(await evaluate(`document.querySelector('[data-developer-tab=${tab}]').getAttribute('aria-selected')`),'true');
+  }
+  await evaluate("document.querySelector('#component-guide-search').value='reward';document.querySelector('#component-guide-search').dispatchEvent(new Event('input',{bubbles:true}))");
+  assert.equal(await evaluate("!!document.querySelector('#component-guide-dismiss')"),true);
+  await click('[data-developer-tab=sequences]');
+  for(const action of ['click-wait','scroll-option','dismiss','setting-call']){
+    await change('#framework-new-action',action);await click('#framework-add-step');
+    assert.equal(await evaluate(`document.querySelector('#framework-steps>.flow-step-list>details:last-child [data-step-field=action]').value`),action);
+  }
+  await click('#framework-steps>.flow-step-list>details:last-child [data-component-help]');
+  assert.equal(await evaluate("document.querySelector('[data-developer-tab=guide]').getAttribute('aria-selected')"),'true');
+  assert.equal(await evaluate("!!document.querySelector('#component-guide-setting-call')"),true);
+  await shot('developer-component-guide.png');
+  await click('[data-developer-tab=sequences]');await shot('developer-sequences-tab.png');
+
+  await click('[data-page=settings]');
+  const themeSurfaces=[];
+  for(const theme of ['christmas','midnight','rose','ember','default']){
+    await click('[data-theme-choice='+theme+']');
+    await until(`window.__host.state.config.theme==='${theme}'`);
+    assert.equal(await evaluate('document.documentElement.dataset.theme'),theme);
+    themeSurfaces.push(await evaluate("[getComputedStyle(document.documentElement).getPropertyValue('--panel').trim(),getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()].join('|')"));
+    if(theme!=='default'){
+      const consistent=await evaluate(`(()=>{const rgb=token=>{const el=document.createElement('span');el.style.color='var('+token+')';document.body.append(el);const c=getComputedStyle(el).color;el.remove();return c;};return {status:getComputedStyle(document.querySelector('.sidebar-state')).backgroundColor===rgb('--panel'),filter:getComputedStyle(document.querySelector('.segments')).backgroundColor===rgb('--input'),selected:getComputedStyle(document.querySelector('.segments>button.active')).backgroundColor===rgb('--accent-soft'),search:getComputedStyle(document.querySelector('.search-field input')).backgroundColor==='rgba(0, 0, 0, 0)',labels:getComputedStyle(document.querySelector('.nav-section')).color===getComputedStyle(document.querySelector('.sidebar-title')).color,border:getComputedStyle(document.querySelector('.app-header')).borderBottomColor===rgb('--line')};})()`);
+      assert.ok(Object.values(consistent).every(Boolean),theme+' '+JSON.stringify(consistent));
+    }
+    if(theme==='christmas'){
+      assert.equal(await evaluate("document.querySelectorAll('.theme-swatch').length"),5);
+      assert.equal(await evaluate("document.querySelector('[data-theme-choice=christmas]').getAttribute('aria-pressed')"),'true');
+      assert.ok((await evaluate("getComputedStyle(document.querySelector('[data-theme-choice=christmas]')).backgroundImage")).includes('linear-gradient'));
+      await evaluate("document.querySelector('#theme-options').scrollIntoView({block:'center'})");await shot('christmas-theme-picker.png');
+      await click('[data-page=loadout]');await until("!document.querySelector('.placement-content').inert");
+      const placementStyle=await evaluate(`(()=>{const rgb=token=>{const el=document.createElement('span');el.style.color='var('+token+')';document.body.append(el);const c=getComputedStyle(el).color;el.remove();return c;};const row=document.querySelector('.match-step');return {row:getComputedStyle(row).backgroundColor===rgb('--input'),rail:getComputedStyle(document.querySelector('.route-rail')).backgroundColor===rgb('--sidebar'),stripe:getComputedStyle(row).borderLeftWidth==='1px',nav:getComputedStyle(document.querySelector('nav>a.active')).boxShadow==='none'};})()`);
+      assert.ok(Object.values(placementStyle).every(Boolean),JSON.stringify(placementStyle));
+      await evaluate("document.querySelector('#match-step-list').scrollIntoView({block:'center'})");await shot('christmas-placement-theme.png');await click('[data-page=settings]');
+    }
+
+  }
+  assert.equal(new Set(themeSurfaces).size,5);
+  assert.equal(await evaluate("document.querySelector('.swatches').closest('.setting-row').hidden"),false);
+
+  await click('[data-theme-choice=midnight]');await click('[data-page=dashboard]');await click('#back-to-hub');await shot('midnight-theme-consistency.png');
 
   assert.deepEqual(errors,[]);
   console.log('PASS: linked instance selection/moved coordinates, Reconfigure and optional auto upgrade, compact slots, corrected text/padding, key recording and modifier rejection, collapsible named steps/settings, root/nested drag/drop and cancellation, slot colours/counters, match dialog, map groups, sidebar developer tools, creator maps/key overrides, player screenshot/points/start setup, global controls, empty release, generic developer workspace, blank creation, bundled icon selection/export/import, settings/coordinate/key editing, dashboard controls and run lifecycle; no browser errors.');

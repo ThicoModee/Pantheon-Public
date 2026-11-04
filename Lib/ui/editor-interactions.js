@@ -21,4 +21,15 @@
     const escape=ev=>{if(ev.key==='Escape'){ev.preventDefault();cancel();}};
     grip.setPointerCapture(e.pointerId);document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',finish,true);document.addEventListener('pointercancel',cancel,true);document.addEventListener('keydown',escape);window.addEventListener('blur',cancel);
   },true);}};
+  root.PantheonEditorView={capture(host){
+    const scroll=document.scrollingElement,x=scroll.scrollLeft,y=scroll.scrollTop,active=document.activeElement;
+    let selector='',start=null,end=null;
+    if(host.contains(active)){
+      const step=active.closest('[data-step-path]'),setting=active.closest('[data-author-setting]'),option=active.closest('[data-setting-option]');
+      const attrs=['data-step-field','data-condition-path','data-condition-field','data-parameter','data-walk-key','data-setting-field','data-option-field','data-default-option'];
+      const keys=attrs.filter(k=>active.hasAttribute(k));
+      if(keys.length){selector=(step?'[data-step-path="'+CSS.escape(step.dataset.stepPath)+'"] ':setting?'[data-author-setting="'+CSS.escape(setting.dataset.authorSetting)+'"] ':'')+(option?'[data-setting-option="'+option.dataset.settingOption+'"] ':'')+keys.map(k=>'['+k+'="'+CSS.escape(active.getAttribute(k))+'"]').join('');start=active.selectionStart;end=active.selectionEnd;}
+    }
+    return ()=>{if(selector){const el=host.querySelector(selector);if(el){el.focus({preventScroll:true});if(start!==null&&typeof el.setSelectionRange==='function')try{el.setSelectionRange(start,end);}catch{}}}scroll.scrollLeft=x;scroll.scrollTop=y;};
+  }};
 })(globalThis);

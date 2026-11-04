@@ -2,16 +2,18 @@
   'use strict';
   const catalog = [];
   const macroIcons={pantheon:{name:'Pantheon',image:'assets/pantheon.png'},dungeons:{name:'Dungeons',image:'assets/macros/Dungeon.png'},progressive:{name:'Progressive',image:'assets/macros/Progressive.png'},raids:{name:'Raids',image:'assets/macros/Raids.png'},challenges:{name:'Challenges',image:'assets/macros/Challenge.png'},winter:{name:'Winter',image:'assets/macros/Winter.png'}};
-  const defaults = () => ({root:'',accent:'violet',compact:0,scale:100,selected:'',favorites:[],developer:0});
+  const defaults = () => ({root:'',accent:'violet',theme:'default',compact:0,scale:100,selected:'',favorites:[],developer:0});
   function mode(id) { const m=catalog.find(m=>m.id===id); if(!m) throw Error('Unknown macro.'); return m; }
   function preferences(raw) {
+    const theme=raw.theme??'default';
+    if(!['default','christmas','midnight','rose','ember'].includes(theme))throw Error('Unknown theme.');
     const selected=catalog.some(m=>m.id===raw.selected)?raw.selected:'';
     if(!['violet','neutral','gold'].includes(raw.accent) || ![90,100,110].includes(raw.scale) || ![0,1].includes(raw.compact)) throw Error('Invalid appearance preferences.');
     if(!Array.isArray(raw.favorites) || raw.favorites.length>64) throw Error('Invalid favourites.');
     const favorites=raw.favorites.filter(id=>catalog.some(m=>m.id===id));
     const developer=raw.developer??0;
     if(![0,1].includes(developer))throw Error('Invalid developer mode preference.');
-    return {root:typeof raw.root==='string'?raw.root:'',accent:raw.accent,compact:raw.compact,scale:raw.scale,selected,favorites:[...new Set(favorites)],developer};
+    return {root:typeof raw.root==='string'?raw.root:'',accent:raw.accent,theme,compact:raw.compact,scale:raw.scale,selected,favorites:[...new Set(favorites)],developer};
   }
   function shortcut(event) {
     if(['Control','Alt','Shift','Meta'].includes(event.key)) return null;

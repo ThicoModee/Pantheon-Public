@@ -7,7 +7,7 @@ class PlacementPlan {
     }
     static Config(raw := unset) {
         raw := IsSet(raw) ? raw : Map()
-        FlowSchema.Keys(raw, "targeting|autoUpgrade|autoUpgradeLevels")
+        FlowSchema.Keys(raw, "targeting|autoUpgrade|autoUpgradeLevels|managedUpgrade|placementFeedback")
         names := raw.Get("targeting", ["First", "Last", "Strongest", "Weakest"]), seen := Map()
         if !(names is Array) || !names.Length || names.Length > 16
             throw ValueError("Provide 1 to 16 targeting priorities in their in-game cycle order.")
@@ -17,7 +17,12 @@ class PlacementPlan {
                 throw ValueError("Targeting names must be unique and nonempty.")
             seen[name] := true
         }
-        return Map("targeting", names, "autoUpgrade", ProfileStore.Int(raw.Get("autoUpgrade", 0), 0, 1, "Auto upgrade support"), "autoUpgradeLevels", ProfileStore.Int(raw.Get("autoUpgradeLevels", 3), 1, 10, "Auto upgrade priorities"))
+        result := Map("targeting", names, "autoUpgrade", ProfileStore.Int(raw.Get("autoUpgrade", 0), 0, 1, "Auto upgrade support"), "autoUpgradeLevels", ProfileStore.Int(raw.Get("autoUpgradeLevels", 3), 1, 10, "Auto upgrade priorities"))
+        if raw.Has("managedUpgrade")
+            result["managedUpgrade"] := ManagedUpgrade.Config(raw["managedUpgrade"])
+        if raw.Has("placementFeedback")
+            result["placementFeedback"] := PlacementFeedback.Config(raw["placementFeedback"])
+        return result
     }
     static Validate(raw, strict := false, capabilities := unset) {
         if !(raw is Map) || raw["version"] != 1 || !(raw["routes"] is Array) || !raw["routes"].Length || raw["routes"].Length > 60
@@ -50,6 +55,8 @@ class PlacementPlan {
                         "delayMs", ProfileStore.Int(action["delayMs"], 0, 600000, "Delay"), "repeat", ProfileStore.Int(action["repeat"], 1, 20, "Repeats"),
                         "timeoutMs", ProfileStore.Int(action["timeoutMs"], 1000, 180000, "Placement timeout"), "placement", link,
                         "targeting", ProfileStore.Int(action.Get("targeting", 0), 0, 15, "Targeting priority"), "changeTargeting", ProfileStore.Int(action.Get("changeTargeting", 1), 0, 1, "Change targeting"),
+                        "managedPriority", ProfileStore.Int(action.Get("managedPriority", 0), 0, 10, "Managed upgrade priority"),
+                        "managedLimit", ProfileStore.Int(action.Get("managedLimit", 0), 0, 100, "Managed upgrade limit"),
                         "autoUpgrade", ProfileStore.Int(action.Get("autoUpgrade", kind == "reconfigure" ? -1 : 0), kind == "reconfigure" ? -1 : 0, 10, "Auto upgrade priority")))
                 }
                 if starts != 1

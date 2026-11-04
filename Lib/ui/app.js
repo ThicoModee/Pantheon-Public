@@ -39,6 +39,7 @@
   const framework=new FrameworkEditor({request,toast,changed:trackDirty,point:()=>developer.pickCoordinates(),catalogChanged:async()=>{await refreshSnapshot();if(workspaceMode)await authoredSettings.open(workspaceMode,true);},select:()=>developer.selectRegion(),capture:()=>({pattern:developer.code,region:{...developer.selection}})});
 
   const playEditor=new PlayEditor({framework,editor,request,toast,changed:trackDirty});
+  const developerWorkspace=new DeveloperWorkspace();
   const controlInfo=[['resizeBind','Set up Roblox','Position and resize the game window.'],['startBind','Start / stop','Start or stop the selected macro.'],['pauseBind','Pause / resume','Temporarily pause or continue the macro.']];
 
   function toast(message,error=false) {clearTimeout(toastTimer);$('toast').textContent=message;$('toast').classList.toggle('error',error);$('toast').hidden=false;toastTimer=setTimeout(()=>{$('toast').hidden=true;},error?9000:4300);}
@@ -105,11 +106,11 @@
 
   function applyAppearance() {
 
-    document.documentElement.dataset.accent=config.accent;document.documentElement.dataset.scale=config.scale;
+    document.documentElement.dataset.theme=config.theme;document.documentElement.dataset.accent=config.accent;document.documentElement.dataset.scale=config.scale;
 
     document.body.classList.toggle('compact',!!config.compact);
 
-    $('compact-sidebar').checked=!!config.compact;$('interface-size').value=config.scale;
+    document.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===config.theme)));document.querySelector('.swatches').closest('.setting-row').hidden=config.theme!=='default';$('compact-sidebar').checked=!!config.compact;$('interface-size').value=config.scale;
 
     developer.setEnabled(config.developer);$('developer-nav').hidden=!config.developer;
 
@@ -418,6 +419,8 @@
   $('collapse').addEventListener('click',()=>{config.compact=Number(!config.compact);applyAppearance();persistPreferences();});
 
   $('compact-sidebar').addEventListener('input',e=>{config.compact=Number(e.target.checked);applyAppearance();persistPreferences();});
+
+  $('theme-options').addEventListener('click',e=>{const button=e.target.closest('[data-theme-choice]');if(!button)return;config.theme=button.dataset.themeChoice;applyAppearance();persistPreferences();});
 
   $('interface-size').addEventListener('input',e=>{config.scale=Number(e.target.value);applyAppearance();persistPreferences();});
 

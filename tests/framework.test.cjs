@@ -8,7 +8,7 @@ const definition=JSON.parse(fs.readFileSync(path.join(__dirname,'data/flow-fixtu
 
 test('editor offers only typed input and control-flow actions',()=>{
 
-  assert.deepEqual(actions,['click-point','click','click-setting','move','walk','scroll','wait','delay','press','key','call','repeat','for-setting','if','retry','until','stop','camera','placements','outcome']);
+  assert.deepEqual(actions,['click-point','click','click-setting','move','walk','scroll','wait','delay','press','key','call','repeat','for-setting','if','retry','until','stop','camera','placements','outcome','click-wait','scroll-option','dismiss','setting-call']);
 
   for(const action of actions){const s=step(action,definition,'new-step');assert.equal(s.action,action);assert.equal(s.id,'new-step');assert.equal(s.path,undefined);}
 

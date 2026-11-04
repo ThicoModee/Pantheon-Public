@@ -51,3 +51,31 @@ Shared playback uses the same Roblox foreground/client checks, loop time limits,
 Map acts and Infinite routes can be added as children of a top-level map. The placement editor groups them under an expandable header; they share the parent screenshot and keep separate timelines. See [Editor controls](EDITOR_CONTROLS.md).
 
 Upgrade, Sell and Reconfigure now reference a specific Place step and follow its current coordinate. Creators can configure targeting order and optional native auto-upgrade support; manual Upgrade presses remain available in all games. See [Placed-unit actions](PLACED_UNIT_ACTIONS.md).
+
+## Pantheon managed upgrades (1.0-beta.2)
+
+For games without native auto upgrading, enable **Pantheon managed upgrades** under Developer tools. This is separate from the game's native auto-upgrade capability.
+
+Capture three FindText targets: a static anchor visible only in the selected-unit panel, the affordable button's fixed background/detail excluding its changing cost text, and Max. Pick the panel close button, then select a small static upgrade-level text or progress-bar region (at most 200 by 80 pixels). Exclude money, damage counters, animated borders, hover highlights and the game scene. Captures must be tested at the same 800 by 600 client size. Do not reuse the same capture for multiple roles.
+
+Choose the check interval, panel response timeout, confirmation timeout, and policy. **Check units in priority order** cycles through eligible units, upgrading affordable ones. **Save for highest priority until finished** stays on the highest-priority unfinished unit until its limit or Max, including when it cannot yet be afforded. Priority 1 is highest.
+
+In Placement setup, edit each **Place** action and set **Pantheon upgrade priority**. Off excludes that placement. **Stop after this many confirmed upgrades** counts additional purchases made by the managed upgrader, not the unit's absolute upgrade level; 0 continues until Max. Manual Upgrade actions remain available and are not included in that count.
+
+Managed upgrading begins after the placement timeline completes and only runs inside **Wait for match result**. Older separate Wait/If result handling does not run it. A sold unit is excluded. The engine opens one unit panel, checks affordability, sends one upgrade key, and requires a stable change in the configured progress region or a Max detection. It then closes the panel before checking Victory or Defeat again. A missing panel, unconfirmed purchase, or failure to close stops with an explicit error. If a result appears during an attempt, the panel is closed before result handling takes over.
+
+This does not read numeric money or cost values. It depends on the game's affordable appearance and a reliable progress region, and needs live game testing. Configuring and testing targets is required before enabling it for players. New exports require Pantheon 1.0-beta.2 or newer.
+
+A small uniform FindText patch is not distinctive across the full game screen. For the affordable target, select the fixed button patch and choose **Search captured area only**. **Test selected target** uses the target’s saved search bounds; the general capture tester searches the whole client. Check that the target matches when affordable and does not match when unaffordable. Grayscale captures do not distinguish hue by itself.
+
+Panel response timeout is a maximum wait for the panel to open or close, not a fixed delay. Static progress uses one baseline sample, then polls every 50 ms after the upgrade key and checks a changed reading again after 50 ms. Minor colour differences remain tolerated. Check interval still controls the rate of unit checks; existing saved values are preserved.
+
+Progress sampling captures the region once and reads its pixels from memory. Successful upgrades proceed without the retry interval; unaffordable checks still use the configured interval. Unit panels close between checks so result images remain visible. Placement uses the saved coordinates directly.
+
+## Placement feedback and waiting for money
+
+In Developer tools, choose **Placement feedback → Configure placement feedback**. Select the unit-panel image and **Not enough money** image, then select the panel close coordinate. Placement-limit and unique-unit-conflict images are optional. Existing managed-upgrade panel settings are copied when starting the configuration, but the configurations are independent afterward. Capture the fixed part of each warning and exclude changing numbers or trailing animation.
+
+Each Place action exposes **Wait for placement up to (seconds)**. Explicit money errors cancel placement mode, inspect the attempted point for an already placed unit, wait for the old warning to disappear and retry the same coordinate within this timeout. No path mapping or coordinate offsets are used. A panel detection confirms success. Unknown failures stop instead of placing repeatedly without evidence.
+
+Detected placement limits or unique-unit conflicts skip that placement. Its linked Upgrade, Sell and Reconfigure actions are skipped immediately, including their delays, and it is excluded from managed upgrading. The reason is logged. Result images from Wait for match result are checked during the placement wait so the timeline can yield to result handling when the match ends. If the money timeout expires, the run stops with an explicit error and releases placement input.

@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 
 #Include %A_LineFile%\..\Schema.ahk
+#Include %A_LineFile%\..\WorkflowComponents.ahk
 
 
 
@@ -10,6 +11,7 @@ class FlowRunner {
 
         this.Definition := FlowSchema.Validate(definition), this.Environment := environment
 
+        this.Managed := 0, this.ResultTargets := []
         this.Cancelled := false, this.Budget := 100000, this.Started := 0, this.Deadlines := []
 
         this.Values := FlowSettings.Values(definition, IsSet(values) ? values : Map()), this.Context := Map(), this.PlacementData := 0, this.PlayKeys := PlayControls.Defaults()
@@ -20,6 +22,7 @@ class FlowRunner {
 
         FlowSchema.Reference(this.Definition, id)
 
+        this.Managed := 0, this.ResultTargets := []
         this.Started := A_TickCount, this.Budget := 100000, this.Cancelled := false, this.Deadlines := []
 
         try {
@@ -261,6 +264,18 @@ class FlowRunner {
             this.Check(), this.Environment.Scroll("Down", 1), this.Wait(50)
         }
     }
+    ResultImages(steps, result) {
+        for step in steps {
+            if step["action"] == "outcome" {
+                for field in ["victory", "defeat"]
+                    if !result.Has(step[field])
+                        result[step[field]] := true
+            }
+            for field in ["steps", "thenSteps", "elseSteps"]
+                if step.Has(field)
+                    this.ResultImages(step[field], result)
+        }
+    }
     Placements(step) {
         if !this.PlacementData
             throw Error("No placement setup was supplied. Save a setup in Placement setup first.")
@@ -286,19 +301,38 @@ class FlowRunner {
             if action["kind"] == "start" && action["enabled"] && action["x"] == 0 && action["y"] == 0
                 throw Error("Set Start Game coordinates in Placement setup, or disable it if the game starts automatically.")
         this.Environment.Trace("Placement setup", selected["name"], "Team " selected["team"])
-        live := Map()
+        live := Map(), skipped := Map(), results := Map()
+        for id, flow in this.Definition["workflows"]
+            this.ResultImages(flow["steps"], results)
+        this.ResultTargets := []
+        for target in results
+            this.ResultTargets.Push(target)
         for action in selected["teams"][selected["team"]]["steps"] {
             this.Budget--, this.Check()
             if !action["enabled"]
                 continue
-            this.Wait(action["delayMs"])
             kind := action["kind"]
+            if (kind == "upgrade" || kind == "sell" || kind == "reconfigure") && skipped.Has(action["placement"]) {
+                this.Environment.Trace("Match action skipped", action["id"], "Its placement was skipped")
+                continue
+            }
+            this.Wait(action["delayMs"])
             if kind == "wait"
                 continue
             if kind == "place" {
-                this.Hold([this.PlayKeys["slot-" action["slot"]]], 30), this.Wait(150)
-                this.Environment.Click(action["x"], action["y"]), this.Wait(150)
-                this.Hold([this.PlayKeys["cancel"]], 30)
+                if cfg.Has("placementFeedback") {
+                    result := PlacementFeedback.Place(this, action, cfg["placementFeedback"])
+                    if result == -1
+                        break
+                    if !result {
+                        skipped[action["id"]] := true
+                        continue
+                    }
+                } else {
+                    this.Hold([this.PlayKeys["slot-" action["slot"]]], 30), this.Wait(150)
+                    this.Environment.Click(action["x"], action["y"]), this.Wait(150)
+                    this.Hold([this.PlayKeys["cancel"]], 30)
+                }
                 live[action["id"]] := {Targeting: 0, Auto: 0, Placement: action}
                 if action["targeting"] > 0 || action["autoUpgrade"] > 0 {
                     this.Environment.Click(action["x"], action["y"]), this.Wait(150)
@@ -324,6 +358,34 @@ class FlowRunner {
                 }
             }
         }
+        this.Managed := cfg.Has("managedUpgrade") ? ManagedUpgrade(this, cfg["managedUpgrade"], live) : 0
+    }
+    Outcome(step, location) {
+        this.ResultTargets := [step["victory"], step["defeat"]]
+        this.Deadlines.Push({End: A_TickCount+step["timeoutMs"], Owner: location})
+        won := false
+        try {
+            if this.Managed
+                this.Managed.Close()
+            loop {
+                this.Check()
+                won := this.Find(step["victory"], 0)
+                lost := !won && this.Find(step["defeat"], 0)
+                if won || lost
+                    break
+                if this.Managed
+                    this.Managed.Tick()
+                this.Wait(this.Managed ? 25 : 200)
+            }
+        } catch FlowLoopTimeout as err {
+            if err.Owner != location
+                throw err
+            throw FlowImageError("Match result was not detected before the timeout.")
+        } finally this.Deadlines.Pop()
+        this.Managed := 0
+        if HasMethod(this.Environment, "Result")
+            this.Environment.Result(!!won)
+        this.ExecuteSteps(won ? step["thenSteps"] : step["elseSteps"], location)
     }
     ConfigurePlacement(state, action, cfg, placing := false) {
         if placing || action["changeTargeting"] {
@@ -361,7 +423,7 @@ class FlowRunner {
 
             step := step.Clone()
 
-            for field in ["x", "y", "durationMs", "timeoutMs", "intervalMs", "count", "ticks", "attempts", "sprint"]
+            for field in ["x", "y", "durationMs", "timeoutMs", "intervalMs", "count", "ticks", "attempts", "maxScrolls", "sprint"]
 
                 if step.Has(field) && step[field] is Map
 
@@ -494,22 +556,8 @@ class FlowRunner {
 
                             this.Execute(step["workflow"])
 
-                case "outcome":
-                    started := A_TickCount
-                    loop {
-                        this.Check()
-                        won := this.Find(step["victory"], 0)
-                        lost := !won && this.Find(step["defeat"], 0)
-                        if won || lost {
-                            if HasMethod(this.Environment, "Result")
-                                this.Environment.Result(!!won)
-                            this.ExecuteSteps(won ? step["thenSteps"] : step["elseSteps"], location)
-                            break
-                        }
-                        if A_TickCount-started >= step["timeoutMs"]
-                            throw FlowImageError("Match result was not detected before the timeout.")
-                        this.Wait(200)
-                    }
+                case "click-wait", "scroll-option", "dismiss", "setting-call": WorkflowComponents.Execute(this, step, location)
+                case "outcome": this.Outcome(step, location)
                 case "if":
 
                     if step.Has("condition")
@@ -569,26 +617,6 @@ class FlowRunner {
             }
 
         }
-
-    }
-
-}
-
-class FlowImageError extends Error {
-
-}
-
-class FlowStop extends Error {
-
-}
-
-class FlowLoopTimeout extends Error {
-
-    __New(owner) {
-
-        super.__New("Image loop timed out.")
-
-        this.Owner := owner
 
     }
 

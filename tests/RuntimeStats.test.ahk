@@ -6,6 +6,12 @@
 InitializeMacro() {
 }
 try {
+    old := MacroHub.Config.Clone(), old.Delete("theme")
+    Assert(MacroHub.ValidateConfig(old)["theme"] == "default", "old appearance preferences migrate to the original theme")
+    for theme in ["christmas", "midnight", "rose", "ember"] {
+        appearance := old.Clone(), appearance["theme"] := theme
+        Assert(MacroHub.ValidateConfig(appearance)["theme"] == theme, "native appearance validation accepts each full theme")
+    }
     folder := A_ScriptDir "\..\test-results\runtime-stats-" A_TickCount
     DirCreate(folder)
     HubEngine.Folder := folder, HubEngine.Pid := DllCall("GetCurrentProcessId"), HubEngine.StartedAt := A_TickCount-2500

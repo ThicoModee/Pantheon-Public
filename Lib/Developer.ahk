@@ -160,11 +160,12 @@ class DeveloperTools {
         this.Require()
         pattern := this.Pattern(raw["pattern"])
         tolerance := ProfileStore.Int(raw["tolerance"], 0, 20, "Mismatch percentage")/100
+        region := this.Region(raw.Get("region", Map("x", 0, "y", 0, "width", 800, "height", 600)))
         this.Matches := []
         token := Gdip_Startup(), bitmap := 0
         ToolTip(, , , 19), SetTimer(this.Tick, 0)
         try {
-            bitmap := GameCapture.Bitmap(0, ObjBindMethod(this, "Search", pattern, tolerance))
+            bitmap := GameCapture.Bitmap(0, ObjBindMethod(this, "Search", pattern, tolerance, region))
             return Map("matches", this.Matches)
         } finally {
             if bitmap > 0
@@ -174,10 +175,10 @@ class DeveloperTools {
                 SetTimer(this.Tick, 80)
         }
     }
-    static Search(pattern, tolerance, hwnd, bitmap := 0) {
+    static Search(pattern, tolerance, region, hwnd, bitmap := 0) {
         WinGetClientPos(&left, &top, &w, &h, "ahk_id " hwnd)
         errorRate := tolerance ? tolerance : 0.000000001
-        found := FindText(&x, &y, left, top, left+w-1, top+h-1, errorRate, errorRate, pattern)
+        found := FindText(&x, &y, left+region["x"], top+region["y"], left+region["x"]+region["width"]-1, top+region["y"]+region["height"]-1, errorRate, errorRate, pattern)
         if found
             for match in found {
                 if this.Matches.Length >= 100

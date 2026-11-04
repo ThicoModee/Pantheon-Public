@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 
 #Include %A_LineFile%\..\..\vendor\FindText.ahk
+#Include %A_LineFile%\..\..\vendor\Gdip_All.ahk
 
 
 
@@ -67,9 +68,15 @@ class RobloxFlowEnvironment {
 
         CoordMode("Mouse", "Screen")
 
-        try MouseMove(left+x, top+y, 0)
-
-        finally CoordMode("Mouse", previous)
+        previousMode := A_SendMode
+        try {
+            SendMode("Event")
+            MouseMove(left+x, top+y)
+            this.Check()
+        } finally {
+            SendMode(previousMode)
+            CoordMode("Mouse", previous)
+        }
 
     }
 
@@ -79,18 +86,26 @@ class RobloxFlowEnvironment {
 
             throw Error("Unsupported mouse button.")
 
-        this.Move(x, y)
-        this.Check()
-        DllCall("mouse_event", "uint", 1, "int", x < 799 ? 1 : -1, "int", 0, "uint", 0, "uptr", 0)
-        this.Sleep(30), this.Check()
-        this.Move(x, y)
-        this.Sleep(60), this.Check()
+        previousMode := A_SendMode, previousCoordinates := A_CoordModeMouse
         key := button == "Left" ? "LButton" : "RButton"
         try {
-            this.Key(key, true)
-            this.Sleep(80)
+            SendMode("Event")
+            CoordMode("Mouse", "Screen")
+            this.Move(x, y)
+            nudge := x < 799 ? 1 : -1
+            MouseMove(nudge, 0, , "R")
             this.Check()
-        } finally this.Key(key, false)
+            this.Held[key] := true
+            MouseClick(button, -nudge, 0, , , , "R")
+            this.Sleep(50)
+            this.Check()
+        } finally {
+            try this.Key(key, false)
+            finally {
+                SendMode(previousMode)
+                CoordMode("Mouse", previousCoordinates)
+            }
+        }
 
     }
 
@@ -132,11 +147,11 @@ class RobloxFlowEnvironment {
 
             this.Held[key] := true
 
-            SendInput("{" key " down}")
+            this.SendKey(key, true)
 
         } else if this.Held.Has(key) {
 
-            SendInput("{" key " up}")
+            this.SendKey(key, false)
 
             if DllCall("IsWindow", "ptr", this.Hwnd)
 
@@ -146,6 +161,40 @@ class RobloxFlowEnvironment {
 
         }
 
+    }
+
+    SendKey(key, down) {
+        text := "{" key (down ? " down}" : " up}")
+        if key == "LButton" || key == "RButton"
+            SendEvent(text)
+        else
+            SendInput(text)
+    }
+
+    Progress(rect) {
+        this.Check()
+        WinGetClientPos(&left, &top, , , "ahk_id " this.Hwnd)
+        token := Gdip_Startup(), bitmap := 0, locked := false, result := []
+        try {
+            bitmap := Gdip_BitmapFromScreen((left+rect["x"]) "|" (top+rect["y"]) "|" rect["width"] "|" rect["height"], 0x40CC0020)
+            if bitmap <= 0 || Gdip_LockBits(bitmap, 0, 0, rect["width"], rect["height"], &stride, &scan, &data, 1) != 0
+                throw FlowImageError("Could not capture the upgrade progress region.")
+            locked := true
+            strideX := Max(1, Ceil(rect["width"]/64)), strideY := Max(1, Ceil(rect["height"]/16))
+            loop Ceil(rect["height"]/strideY) {
+                y := (A_Index-1)*strideY
+                this.Check()
+                loop Ceil(rect["width"]/strideX)
+                    result.Push(NumGet(scan+y*stride+((A_Index-1)*strideX)*4, "uint") & 0xFFFFFF)
+            }
+            return result
+        } finally {
+            if locked
+                Gdip_UnlockBits(bitmap, &data)
+            if bitmap > 0
+                Gdip_DisposeImage(bitmap)
+            Gdip_Shutdown(token)
+        }
     }
 
     Sleep(milliseconds) => Sleep(milliseconds)
@@ -193,7 +242,7 @@ class RobloxFlowEnvironment {
 
             try {
 
-                SendInput("{" key " up}")
+                this.SendKey(key, false)
 
                 if DllCall("IsWindow", "ptr", this.Hwnd)
 

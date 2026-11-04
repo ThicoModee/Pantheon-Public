@@ -138,3 +138,18 @@ Sequence and placement timing fields display seconds, including fractional secon
 ## Pantheon version requirements
 
 New exports include `minPantheonVersion`, set to the exporting Pantheon version. Import review, installation and bundled loading reject configurations requiring a newer release. Beta numbers compare numerically, and a stable release is newer than its beta releases. Older configurations without this field remain supported when their definition passes validation. Older Pantheon builds reject the new metadata as an unsupported field instead of silently accepting incompatible components.
+
+## Developer tabs and component guide
+
+Developer tools is divided into **Macro** (identity, starting sequence and player settings), **Sequences** (workflows and steps), **Images** (FindText captures, saved points and bounded tests), **Placement** (maps, game controls and placement/upgrade feedback), **Capture** (region capture, coordinates and raw FindText tools), and **Guide** (searchable component descriptions and examples). The macro selector and bottom save bar apply across tabs. Tabs retain their scroll positions and do not discard drafts. Left/right arrow keys navigate a focused tab list.
+
+The action picker groups common flows, mouse/keyboard actions, conditions/loops, and timing/control actions. Expanded components include an **Example** button that opens the matching guide entry. The guide also explains settings, maps and the game feedback configuration.
+
+Four components simplify common patterns:
+
+- **Click and wait for screen**: click Areas, wait for a unique Raids-menu image, and retry within a fixed attempt limit. If the ready image is already visible, it does not click. Timeout is per attempt, with a separate interval between attempts.
+- **Scroll to selected option**: choose a dropdown setting whose options are mapped to FindText images, pick a position inside the list, and set direction, maximum scrolls and timeout. It checks before scrolling and clicks the selected image when found.
+- **Click through screens**: repeat an end-screen/reward click until the Lobby button or another destination image is visible. It checks the destination before every click and stops with an error on timeout.
+- **Run sequence from setting**: map each dropdown option to an existing sequence. For After Victory, map Retry to a Replay sequence, Return To Lobby to a Lobby sequence, and Next Act to a Next sequence. Those sequences can contain their availability checks and Lobby fallbacks. Every option needs a mapping; recursive sequence calls are rejected.
+
+Existing macros are not rewritten automatically. Their original steps continue to work, so simplify and test one sequence at a time.

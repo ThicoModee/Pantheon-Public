@@ -1,7 +1,7 @@
 #Requires AutoHotkey v2.0
 
 class PantheonVersion {
-    static Current := "1.0-beta.1"
+    static Current := "1.0-beta.2"
     static Parts(value) {
         if !(value is String) || StrLen(value) > 80 || !RegExMatch(value, "^(0|[1-9]\d*)\.(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$", &match)
             throw ValueError("Invalid Pantheon version requirement.")

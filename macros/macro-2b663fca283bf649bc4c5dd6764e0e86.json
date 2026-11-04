@@ -17,6 +17,43 @@
     },
     "mode": "custom",
     "name": "Raids",
+    "playback": {
+      "autoUpgrade": 0,
+      "autoUpgradeLevels": 3,
+      "managedUpgrade": {
+        "affordable": "image-14",
+        "closeX": 279,
+        "closeY": 228,
+        "confirmMs": 2000,
+        "intervalMs": 1000,
+        "max": "image-15",
+        "panel": "image-13",
+        "policy": "affordable",
+        "progress": {
+          "height": 15,
+          "width": 74,
+          "x": 146,
+          "y": 236
+        },
+        "settleMs": 250
+      },
+      "placementFeedback": {
+        "closeX": 279,
+        "closeY": 228,
+        "limit": "image-17",
+        "money": "image-18",
+        "observeMs": 600,
+        "panel": "image-13",
+        "retryMs": 500,
+        "unique": "image-16"
+      },
+      "targeting": [
+        "First",
+        "Last",
+        "Strongest",
+        "Weakest"
+      ]
+    },
     "runMode": "once",
     "settings": {
       "setting-1": {
@@ -110,6 +147,84 @@
         "offsetX": 0,
         "offsetY": 0,
         "pattern": "|<>*99$92.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzbtzwTzzzlzzzszzlyDz7zzzwTzzyDzwD3zlzzzz7zzzXzzXlUs31zVUA10k0zswE60UDk820E40Dz680U01sq004303zlWCAQAT1lll7szzy1XX707sAQQFyDzzUMslk3xX774TXzzwC0A40y0kE17s8zz3k7VUDUC60Fz2Dztz7wS3w7lk4TsXzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-13": {
+        "error0": 0,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Unit Panel Image",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$25.zzU3zzs0zzy0Dzzk7zzw1zzzUzXy8TkQ4Ds427y03vzU3zzs3zjw1zlw0TsA07w471y27kz1bwzkzzzsDzzs",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-14": {
+        "error0": 0,
+        "error1": 0,
+        "height": 16,
+        "kind": "pattern",
+        "name": "Affordable Upgrade Button",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$7.0000000000000000002",
+        "width": 7,
+        "x": 155,
+        "y": 374
+      },
+      "image-15": {
+        "error0": 0,
+        "error1": 0,
+        "height": 59,
+        "kind": "pattern",
+        "name": "Max Upgrade",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$112.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzXzXzzzzzzzzzzzzzzzy7w7zzzzzzzzzzzzzzzsDkTzzzzzzzzzzzzzzzUS1zzzzzzzzzzzzzzzy1k7UCTDzzzzzzzzzzzs20Q0EsTzzzzzzzzzzzU01U111zzzzzzzzzzzy024060DzzzzzzzzzzzsE8EsQ1zzzzzzzzzzzzVVV3VsDzzzzzzzzzzzy6C4C70TzzzzzzzzzzzsTsE0M0zzzzzzzzzzzzVzVU111zzzzzzzzzzzy7y704C7zzzzzzzzzzzszsy0twzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzlzzzzzzzXyDzzzzzzzz3zzzzzzy7kzzzzzzzzwDzzzzzzsT3zzzzzzzzkzzzzzzzVwDzzzzzzzz3zzzzzzy7kW7wFWD4T4D1zzzzzsT20DU20M0s0s3zzzzzVw80Q081030307zzzzy7kU1U0U808080TzzzzsT276727VkVkVkzzzzzVw8QMQ8S727207zzzzy7kVlVkVsQ8Q80Tzzzzw0606027U0U0U3zzzzzs0s0Q08T030307zzzzzU3U3s1Xy0S0S0TzzzzzUy0Tl6DwNwFw3zzzzzzzszzwTzzzzzzzzzzzzzzXzk1zzzzzzzzzzzzzzyDz07zzzzzzzzzzzzzzszw0zzzzzzzzzzzzzzzXzwDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs",
+        "width": 112,
+        "x": 151,
+        "y": 275
+      },
+      "image-16": {
+        "error0": 5,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Unique Error",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$269.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzznzzzzzzzzztzzzzzzzzzzzzzzztzzzzzbzzzzzzDzbtzz7zzzzzzzzzXbzzzzzzzzzzzztzXzzzzyDzzzzzwTyDXzzTzzzzzzzzzj7zzzzzzzzzzzzlz7zzzzwTzzzzzszwT7zzzzzzzzzzzzyDzzzzzzzzzzzzXyDzzzzszzzzzzlzsyCHwwrTTXzbb9yM73ynbwnTjmTsS1wHyDyHlyNsz7wXzlwM1lU4QQ1yCA0sUA3s07U4SD0DUM3s1k7s1Xk30M3U7zXsk3X08ss1wQM1lUNzk070AQy0S0M7k3U7k37U61k30Dz7lXX4QFlXXssllXXlzX6AQMlwQMwMzXWCDXWCC8z74QTyDX768sXX07llXX77kT6AMss7sslslz740T74QQFy08szyCCCAFl760TXX76CDwyAMllsDllXlXyC81yC8ssXw0llzw0QQMk30CAzU6CAQC1wMlk3kzXXU73w0snw0ks1UQNk3zw1sslU60Q1z0AQMwM3slXU7lz77UT7s1k7s1lk3UM3U7zyDvtnmDBy7zaQwtwwTtnbnDXzDDVzDtDsTlDntbXwDnDzzzzzzwTzzzzzzzzzzzzzzzyDzzzzzzzzzzXzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzwTzzzzzzzzzz7zzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzlzzzzzzzzzzyDzzzzzzzzzzzzzzzbzzzzzzzzzzzzzzzznzzzzzzzzzzyTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-17": {
+        "error0": 5,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Placement Limit Error",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$281.zzzzzzzzzzzzzzzzzzbzzzzzzzzzzzzzzzzzzzzwzzzzzzzzsTzzzzzzzzzzzzzzy7zzzzzzzzzzzzzzzzzzzzkzzzzzzzz0DzzzzzzzzzzDzzzwDzzzzzzzzzzzzzzzzzzyTVzzzzzzzs07zzzzzzzzzwDzzzsTzzzzzzzzzzzzzzzzzzsT3zzzzzzzU0DzzzzzzzzzsTzzzkzzzzzzzzzzzzzzzzzzzky7zzzzzzy1szzzzzzzzzzkzzzzVzzzzzzzzzzzzzzzzzzzVwDzzzzzzwDzyCQszb7zlz0DyQz3z7DszszzbDbzXyQzXzy0MNzwQtlzsTzs0E0S03y0w0Ds0S7w0D0T0Ty043w1s0w1zs0E0zk0U0zVzzU0U0w03s0M0Tk0QDk0Q0Q0Tw007k0k1k1zk0U0z0100z3zy0100s07U0k1zU0sT00k1k0Ts00701U301zU301w0201y7zwC23VkQD3UsTz1Uky71VnVkzkMAC711y73zky31sQ473wDzky4DVVwADVkzy7VVsT27y7VzVksMT27sS7zVwD3Vw8T3wDzVw8T33sMT3VzwD33ky4Dw03z3Vkky4Dk0Dz3sS73sEy7sTz3sEy67kky73zsS67Vw8Ts0Dy73VVw8TU0zy7kwC7kVwDkD73UVwADVksC7zkMADVkMQsSzwC73VkEzVvzwDVsS713sTk06013sMT3U0w1zU0s700k1k0zsQC701Vz03zs33kw027kzk0C027kky7U1w3z01sD01k1k1zksQD033z07zs67Vw04DVzs1y04DVVwDUDs7y07kT03k7U3zVksT0S7y0DzkAD3w08T3zwDyCQzbbwzlzwDwAzzz7DszsTzbntzXyTzVzzsQzDwQtzDzzzzzzzzzzzzzzzsTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzkzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzVzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs",
+        "width": 800,
+        "x": 0,
+        "y": 0
+      },
+      "image-18": {
+        "error0": 5,
+        "error1": 0,
+        "height": 600,
+        "kind": "pattern",
+        "name": "Insufficient Money Error",
+        "offsetX": 0,
+        "offsetY": 0,
+        "pattern": "|<>*99$248.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzzzzzzzzzzzzzzzzzzbzDzzzzzzzzzzzzzzzzz3zzzzzzzzzzzzzzzlzzzzkzVzzzDzzzzzzzzzzzzzkzzzzzzzzzzzzzzzsTzzzw7sTzzVzzzzzzzzzzzzzwDzzzzzzzzzzzzzzy7zzzz0y7zzsTzzzzzzzzzzzzz3zzzzzzzzzzzzzzzVzzzzkDVzzy7zzzzzzzzzzzzzkzzzzzzzzzzzzzzzsTzzzw1sTlz0DzsTb7zlzDtz6QAzznbnzlzCDzVyzq7zzzz0C7k7U1zs3k0Tk7VwD0303zs0EDk7U0zUC7s1zzzzk1Vs0M0Tw0Q03s0MT3k0k0Ty003s0M07k1Uy0Tzzzw8MQ060Dy0300w067ks0A07zU00Q0601s0AD27zzzz3273UsTzVkkQD3UVwC631UzsA673UUsS731kVzzzzks1VwC7zkwADVVw8T33kkwDy73VVw8T33ksMQTzzzwC0MT3Vzw033sMT27kkwAD3zVksMT27kk0D27zzzzz3k67ksTz01ky67kVwAD33kzsQC67kVwA07k3zzzzzky1ksC7zsSwDVksAC3VUkwDy73Vks8T3Vvy0zzzzzwDUQ07UDy073sQ0700s0AD3zVksQ067ks0TUD7zzzz3w7U1w3zk1ky7U1k0C033kzsQC7U1VwD07w7VzzzzkzVw1z0zw0QDVw1y03k0kwDy73Vw1sT3k1z1sTzzzyTwzlzwDzsTbwzlzstz4CTbzntwzlzDtzVzkzDzzzzzzzzzzzzzzzzzzzzzzz3zzzzzzzzzzzzzzwDzzzzzzzzzzzzzzzzzzzzzzznUzzzzzzzzzzzzzzy7zzzzzzzzzzzzzzzzzzzzzzzw0TzzzzzzzzzzzzzzVzzzzzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzkzzzzzzzzzzzzzzzzzzzzzzzzk3zzzzzzzzzzzzzzwDzzzzzzzzzzzzzzzzzzzzzzzz3zzzzzzzzzzzzzzzrzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs",
         "width": 800,
         "x": 0,
         "y": 0
@@ -444,38 +559,38 @@
                     "timeoutMs": 10000
                   },
                   {
-                    "id": "reward-transition",
-                    "name": "Wait for reward screen",
                     "action": "delay",
-                    "durationMs": 700
+                    "durationMs": 700,
+                    "id": "reward-transition",
+                    "name": "Wait for reward screen"
                   },
                   {
-                    "id": "dismiss-reward-items",
-                    "name": "Click through items until result menu",
                     "action": "until",
                     "condition": {
-                      "operator": "all",
                       "checks": [
                         {
-                          "target": "image-5",
-                          "state": "present"
+                          "state": "present",
+                          "target": "image-5"
                         }
-                      ]
+                      ],
+                      "operator": "all"
                     },
-                    "timeoutMs": 30000,
-                    "intervalMs": 700,
                     "failure": "error",
+                    "id": "dismiss-reward-items",
+                    "intervalMs": 700,
+                    "name": "Click through items until result menu",
                     "steps": [
                       {
-                        "id": "dismiss-item",
                         "action": "click",
+                        "button": "Left",
+                        "id": "dismiss-item",
+                        "missing": "error",
                         "name": "Dismiss next reward item",
                         "target": "image-10",
-                        "button": "Left",
-                        "timeoutMs": 10000,
-                        "missing": "error"
+                        "timeoutMs": 10000
                       }
-                    ]
+                    ],
+                    "timeoutMs": 30000
                   },
                   {
                     "action": "if",
@@ -564,38 +679,38 @@
                     "timeoutMs": 10000
                   },
                   {
-                    "id": "reward-transition",
-                    "name": "Wait for reward screen",
                     "action": "delay",
-                    "durationMs": 700
+                    "durationMs": 700,
+                    "id": "reward-transition",
+                    "name": "Wait for reward screen"
                   },
                   {
-                    "id": "dismiss-reward-items",
-                    "name": "Click through items until result menu",
                     "action": "until",
                     "condition": {
-                      "operator": "all",
                       "checks": [
                         {
-                          "target": "image-5",
-                          "state": "present"
+                          "state": "present",
+                          "target": "image-5"
                         }
-                      ]
+                      ],
+                      "operator": "all"
                     },
-                    "timeoutMs": 30000,
-                    "intervalMs": 700,
                     "failure": "error",
+                    "id": "dismiss-reward-items",
+                    "intervalMs": 700,
+                    "name": "Click through items until result menu",
                     "steps": [
                       {
-                        "id": "dismiss-item",
                         "action": "click",
+                        "button": "Left",
+                        "id": "dismiss-item",
+                        "missing": "error",
                         "name": "Dismiss next reward item",
                         "target": "image-10",
-                        "button": "Left",
-                        "timeoutMs": 10000,
-                        "missing": "error"
+                        "timeoutMs": 10000
                       }
-                    ]
+                    ],
+                    "timeoutMs": 30000
                   },
                   {
                     "action": "if",
@@ -653,50 +768,16 @@
                         "name": "Next Act or Lobby",
                         "thenSteps": [
                           {
-                            "id": "next-available",
-                            "name": "Next stage if available; otherwise Lobby",
                             "action": "if",
                             "condition": {
-                              "operator": "all",
                               "checks": [
                                 {
-                                  "target": "image-7",
-                                  "state": "present"
+                                  "state": "present",
+                                  "target": "image-7"
                                 }
-                              ]
+                              ],
+                              "operator": "all"
                             },
-                            "thenSteps": [
-                              {
-                                "id": "click-next-stage",
-                                "action": "click",
-                                "name": "Click Next Level",
-                                "target": "image-7",
-                                "button": "Left",
-                                "timeoutMs": 10000,
-                                "missing": "error"
-                              },
-                              {
-                                "id": "transition-delay",
-                                "action": "delay",
-                                "durationMs": 1000
-                              },
-                              {
-                                "id": "wait-match",
-                                "name": "Wait for match load in",
-                                "action": "wait",
-                                "condition": {
-                                  "operator": "all",
-                                  "checks": [
-                                    {
-                                      "target": "image-12",
-                                      "state": "present"
-                                    }
-                                  ]
-                                },
-                                "timeoutMs": 60000,
-                                "missing": "error"
-                              }
-                            ],
                             "elseSteps": [
                               {
                                 "action": "click",
@@ -721,6 +802,40 @@
                                 "id": "wait-lobby",
                                 "missing": "error",
                                 "name": "Wait for lobby",
+                                "timeoutMs": 60000
+                              }
+                            ],
+                            "id": "next-available",
+                            "name": "Next stage if available; otherwise Lobby",
+                            "thenSteps": [
+                              {
+                                "action": "click",
+                                "button": "Left",
+                                "id": "click-next-stage",
+                                "missing": "error",
+                                "name": "Click Next Level",
+                                "target": "image-7",
+                                "timeoutMs": 10000
+                              },
+                              {
+                                "action": "delay",
+                                "durationMs": 1000,
+                                "id": "transition-delay"
+                              },
+                              {
+                                "action": "wait",
+                                "condition": {
+                                  "checks": [
+                                    {
+                                      "state": "present",
+                                      "target": "image-12"
+                                    }
+                                  ],
+                                  "operator": "all"
+                                },
+                                "id": "wait-match",
+                                "missing": "error",
+                                "name": "Wait for match load in",
                                 "timeoutMs": 60000
                               }
                             ]
@@ -819,6 +934,6 @@
   },
   "format": "pantheon-macro",
   "id": "macro-2b663fca283bf649bc4c5dd6764e0e86",
-  "version": 1,
-  "minPantheonVersion": "1.0-beta.1"
+  "minPantheonVersion": "1.0-beta.2",
+  "version": 1
 }

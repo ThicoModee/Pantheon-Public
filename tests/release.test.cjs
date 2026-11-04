@@ -4,7 +4,7 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 test('release keeps supplied data macros separate from personal data',()=>{
   const hub=require('../Lib/ui/model.js');hub.setCustomMacros([]);
   assert.equal(hub.catalog.length,0);assert.equal(hub.defaults().selected,'');assert.deepEqual(hub.defaults().favorites,[]);
-  for(const name of fs.readdirSync(path.join(root,'macros')).filter(p=>p.endsWith('.json'))){const p=JSON.parse(read('macros/'+name));assert.equal(p.format,'pantheon-macro');assert.equal(p.minPantheonVersion,'1.0-beta.1');assert.equal(name,p.id+'.json');}assert.ok(!fs.readdirSync(path.join(root,'macros')).some(p=>p.endsWith('.ahk')));
+  for(const name of fs.readdirSync(path.join(root,'macros')).filter(p=>p.endsWith('.json'))){const p=JSON.parse(read('macros/'+name));assert.equal(p.format,'pantheon-macro');assert.match(p.minPantheonVersion,/^1\.0-beta\.[1-9][0-9]*$/);assert.equal(name,p.id+'.json');}assert.ok(!fs.readdirSync(path.join(root,'macros')).some(p=>p.endsWith('.ahk')));
   for(const p of ['Lib/framework/Store.ahk','Lib/framework/definitions','macros/Anime Adventures','Lib/ui/bundled-framework.js','Lib/ui/route-catalog.json'])assert.ok(!fs.existsSync(path.join(root,p)),p);
 });
 test('developer UI is generic and import is grouped immediately before refresh',()=>{
